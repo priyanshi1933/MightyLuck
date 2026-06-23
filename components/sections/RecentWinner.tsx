@@ -4,10 +4,10 @@ import { useEffect, useState, useRef } from "react";
 const winners = [
   { id: 1, game: "Sweet Bonanza Super Scatter", image: "/w1.png", username: "Alb****", time: "14:16 PM", payout: "$126.1", positive: true },
   { id: 2, game: "Honey Money Multiplier", image: "/w2.png", username: "Tra****", time: "14:16 PM", payout: "$15.2", positive: true },
-  { id: 3, game: "Dragon Tiger", image: "/w3.png", username: "Hid*****", time: "14:15 PM", payout: "$77.08", positive: true },
+  { id: 3, game: "Dragon Tiger", image: "/w3.png", username: "Hid******", time: "14:15 PM", payout: "$77.08", positive: true },
   { id: 4, game: "Eleven Fortune", image: "/w4.png", username: "Gin***", time: "14:15 PM", payout: "$0.00", positive: false },
   { id: 5, game: "Honey Money Multiplier", image: "/w5.png", username: "Tra****", time: "14:15 PM", payout: "$11.23", positive: true },
-  { id: 6, game: "XO Paradise", image: "/w6.png", username: "Amr*****", time: "14:15 PM", payout: "$67.88", positive: true },
+  { id: 6, game: "XO Paradise", image: "/w6.png", username: "Amr******", time: "14:15 PM", payout: "$67.88", positive: true },
 ];
 
 export default function RecentWinner() {
