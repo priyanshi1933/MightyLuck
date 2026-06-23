@@ -86,7 +86,7 @@ function GameCard({
       />
 
       {/* Favorite button */}
-      <button
+      {/* <button
         onClick={(e) => {
           e.stopPropagation();
           setLiked(!liked);
@@ -112,8 +112,38 @@ function GameCard({
           fill={liked ? "#ef4444" : "none"}
           stroke={liked ? "#ef4444" : "rgba(255,255,255,0.9)"}
         />
-      </button>
+      </button> */}
+{/* Favorite button */}
+<button
+  onClick={(e) => {
+    e.stopPropagation();
+    setLiked(!liked);
+  }}
+  style={{
+    position: "absolute",
+    top: "8px",
+    right: "8px",
+    background: "rgba(0,0,0,0.3)",
+    border: "none",
+    borderRadius: "50%",
+    width: "28px",
+    height: "28px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    zIndex: 10,
 
+    opacity: hovered ? 1 : 0,
+pointerEvents: hovered ? "auto" : "none",
+    transform: hovered ? "scale(1)" : "scale(0.8)",
+    transition: "all 0.2s ease",
+  }}
+> <Heart
+    size={14}
+    fill={liked ? "#ef4444" : "none"}
+    stroke={liked ? "#ef4444" : "#ffffff"}
+  /></button>
       {/* Hover overlay with play button */}
       <div
         style={{
@@ -134,7 +164,7 @@ function GameCard({
             width: "44px",
             height: "44px",
             borderRadius: "50%",
-            backgroundColor: "rgba(255,255,255,0.95)",
+            backgroundColor: "#FFC83D",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
