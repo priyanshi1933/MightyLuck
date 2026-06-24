@@ -3,7 +3,15 @@ import { useAppDispatch } from '@/app/store/hooks';
 import { toggleSidebar } from '@/app/store';
 import { useEffect, useState } from 'react';
 
-export default function Navbar() {
+interface NavbarProps{
+  onLogin:()=>void;
+  onJoin:()=>void;
+}
+
+export default function Navbar({
+  onLogin,
+  onJoin,
+}: NavbarProps) {
   const dispatch = useAppDispatch();
   const [isMobile, setIsMobile] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -213,7 +221,9 @@ export default function Navbar() {
         )}
 
         {/* Login */}
-        <button style={{
+        <button 
+        onClick={onLogin} 
+        style={{
           backgroundColor: '#1463FF',
           color: '#ffffff',
           border: 'none',
@@ -230,7 +240,9 @@ export default function Navbar() {
         </button>
 
         {/* Join */}
-        <button style={{
+        <button
+        onClick={onJoin} 
+        style={{
           backgroundColor: '#FFC83D',
           color: '#1A1404',
           border: 'none',

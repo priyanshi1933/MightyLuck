@@ -14,10 +14,15 @@ import TableGame from "@/components/sections/TableGame";
 import BonusBuy from "@/components/sections/BonusBuy";
 import Collection from "@/components/sections/Collection";
 import RecentWinner from "@/components/sections/RecentWinner";
+import AboutSection from "@/components/sections/AboutSection";
+import Footer from "@/components/layout/Footer";
+import AuthModal from "@/components/ui/AuthModal";
 
 export default function Home() {
   const sidebarOpen = useAppSelector((s) => s.ui.sidebarOpen);
   const [isMobile, setIsMobile] = useState(false);
+  const [authModal, setAuthModal] = useState(false);
+  const [authTab, setAuthTab] = useState<"join" | "login">("join");
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -35,7 +40,16 @@ export default function Home() {
         overflowX: "hidden",
       }}
     >
-      <Navbar />
+      <Navbar
+        onLogin={() => {
+          setAuthTab("login");
+          setAuthModal(true);
+        }}
+        onJoin={() => {
+          setAuthTab("join");
+          setAuthModal(true);
+        }}
+      />
       <Sidebar />
 
       <main
@@ -55,6 +69,8 @@ export default function Home() {
         >
           <HeroBanner />
         </div>
+
+        <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
 
         <div
           style={{
@@ -147,7 +163,23 @@ export default function Home() {
         >
           <RecentWinner />
         </div>
+        <div
+          style={{
+            padding: isMobile ? "0 10px 24px" : "0 16px 24px",
+            boxSizing: "border-box",
+          }}
+        >
+          <AboutSection />
+        </div>
       </main>
+      <div
+        style={{
+          marginLeft: isMobile ? "0px" : sidebarOpen ? "240px" : "0px",
+          transition: "margin-left 0.3s ease",
+        }}
+      >
+        <Footer />
+      </div>
     </div>
   );
 }

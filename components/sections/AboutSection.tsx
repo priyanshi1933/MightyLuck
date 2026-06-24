@@ -1,23 +1,10 @@
 "use client";
-
 import { useEffect, useState } from "react";
-export default function DepositStrip() {
-     const [isMobile, setIsMobile] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
 
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
- const mobile = mounted && isMobile;
-  const cryptos = [
+export default function AboutSection() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+   const cryptos = [
     {
       name: "BTC",
       svg: (
@@ -253,53 +240,298 @@ export default function DepositStrip() {
     },
   ];
 
-  return (
-    <div
-    style={{
-  width: "100%",
-  height: isMobile ? "auto" : "64px",
-  backgroundColor: "#0c1e5b",
-  display: "flex",
-  flexDirection: isMobile ? "column" : "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  borderRadius: "16px",
-  padding: isMobile ? "16px" : "0 24px",
-  // boxSizing: "border-box",
-  // borderTop: "1px solid rgba(255,255,255,0.06)",
-  // borderBottom: "1px solid rgba(255,255,255,0.06)",
-  gap: isMobile ? "16px" : "0",
-}}
-    >
-      {/* Left label */}
-      <span
-       style={{
-  width: isMobile ? "100%" : "263px",
-  color: "#FFFFFF",
-  fontFamily: "Jost, system-ui, sans-serif",
-  fontWeight: 800,
-  fontSize: isMobile ? "18px" : "20px",
-  textAlign: "center",
-  whiteSpace: "nowrap",
-  flexShrink: 0,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}}
-      >
-        Want to play? Deposit Now
-      </span>
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-      {/* Crypto icons */}
+  return (
+    <section
+      style={{
+        width: "100%",
+        maxWidth: "1136px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "40px",
+        padding: isMobile ? "0 12px" : "0",
+        boxSizing: "border-box",
+        marginTop: "32px",
+        margin: "32px auto 0 auto",
+        alignItems: "center",
+      }}
+    >
+      {/* First div — w=800, h=412, gap=24px */}
       <div
+        style={{
+          width: "100%",
+          maxWidth: "800px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "24px",
+          margin: "0 auto",
+        }}
+      >
+        {/* Header — Jost 700, 32px, lh=120%, ls=-2% */}
+        <h1
+          style={{
+            fontFamily: "Jost, sans-serif",
+            fontWeight: 700,
+            fontSize: isMobile ? "24px" : "32px",
+            lineHeight: "120%",
+            letterSpacing: "-0.02em",
+            color: "#FFFFFF",
+            margin: 0,
+            maxWidth: "800px",
+          }}
+        >
+          Play the Best Crypto Casino Games Online at Mighty Luck — Fast, Fair
+          and Secure
+        </h1>
+
+        {/* Content — Manrope 500, 16px, lh=160%, color=#D2DCF7 */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+            maxWidth: "800px",
+            position: "relative",
+            maxHeight: expanded ? "none" : isMobile ? "200px" : "none",
+            overflow: expanded ? "visible" : isMobile ? "hidden" : "visible",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "Manrope, sans-serif",
+              fontWeight: 500,
+              fontSize: "16px",
+              lineHeight: "160%",
+              letterSpacing: "0%",
+              color: "#D2DCF7",
+              margin: 0,
+            }}
+          >
+            Step into a next-generation gaming experience where every spin, bet,
+            and hand is powered by blockchain technology. At Mighty Luck Casino,
+            you can explore more than 9,000 crypto casino games across slots,
+            table games, live dealer games, and crash-style favorites. As one of
+            the top crypto casinos online, Mighty Luck gives players instant
+            withdrawals, enhanced privacy, and a secure gambling environment
+            without the friction of traditional payment methods.
+          </p>
+
+          <p
+            style={{
+              fontFamily: "Manrope, sans-serif",
+              fontWeight: 500,
+              fontSize: "16px",
+              lineHeight: "160%",
+              letterSpacing: "0%",
+              color: "#D2DCF7",
+              margin: 0,
+            }}
+          >
+            Whether you're here to play table games, explore Bitcoin casino
+            games, or try the latest provably fair slots, Mighty Luck delivers
+            one of the most complete online casino experiences available today.
+          </p>
+
+          <p
+            style={{
+              fontFamily: "Manrope, sans-serif",
+              fontWeight: 500,
+              fontSize: "16px",
+              lineHeight: "160%",
+              color: "#D2DCF7",
+              margin: 0,
+            }}
+          >
+            Ready to play games and win real crypto?
+          </p>
+
+          <p
+            style={{
+              fontFamily: "Manrope, sans-serif",
+              fontWeight: 500,
+              fontSize: "16px",
+              lineHeight: "160%",
+              color: "#D2DCF7",
+              margin: 0,
+            }}
+          >
+            Start playing crypto casino games at Mighty Luck Casino
+          </p>
+
+          {/* Mobile fade overlay */}
+          {isMobile && !expanded && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: "60px",
+                background: "linear-gradient(to bottom, transparent, #091741)",
+                pointerEvents: "none",
+              }}
+            />
+          )}
+        </div>
+      </div>
+
+      {/* Second div — w=800, h=129, gap=16px */}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "800px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+          margin: "0 auto",
+        }}
+      >
+        {/* 2nd header — Jost 700, 24px, lh=100% */}
+        <h2
+          style={{
+            fontFamily: "Jost, sans-serif",
+            fontWeight: 700,
+            fontSize: isMobile ? "20px" : "24px",
+            lineHeight: "100%",
+            letterSpacing: "0%",
+            color: "#FFFFFF",
+            margin: 0,
+          }}
+        >
+          Why Mighty Luck Is the Ultimate Place to Play Crypto Casino Games
+        </h2>
+
+        {/* 2nd content — p=24px 10px, gap=10px */}
+        <div
+          style={{
+            paddingTop: "24px",
+            paddingRight: "10px",
+            paddingBottom: "24px",
+            paddingLeft: "10px",
+            gap: "10px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "Manrope, sans-serif",
+              fontWeight: 500,
+              fontSize: "16px",
+              lineHeight: "160%",
+              color: "#D2DCF7",
+              margin: 0,
+            }}
+          >
+            Mighty Luck Casino offers the perfect blend of crypto gambling
+            convenience, online casino entertainment, and world-class security.
+            Compared to traditional online casinos, Mighty Luck delivers
+            significantly faster payouts, more generous bonuses, and an
+            unmatched selection of various games.
+          </p>
+        </div>
+
+        {/* 3rd section — Massive Game Variety */}
+        <h2
+          style={{
+            fontFamily: "Jost, sans-serif",
+            fontWeight: 700,
+            fontSize: isMobile ? "20px" : "24px",
+            lineHeight: "100%",
+            letterSpacing: "0%",
+            color: "#FFFFFF",
+            margin: 0,
+            opacity: expanded ? 1 : isMobile ? 0.4 : 1,
+          }}
+        >
+          Massive Game Variety
+        </h2>
+
+        {(expanded || !isMobile) && (
+          <p
+            style={{
+              fontFamily: "Manrope, sans-serif",
+              fontWeight: 500,
+              fontSize: "16px",
+              lineHeight: "160%",
+              color: "#D2DCF7",
+              margin: 0,
+            }}
+          >
+            With more than 9,000 casino games, Mighty Luck outshines crypto
+            casinos and traditional casinos alike. You'll find slots from top
+            providers, live dealer tables, sports betting, and provably fair
+            games that guarantee transparency.
+           
+          </p>
+        )}
+          <button
+        onClick={() => setExpanded(!expanded)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          padding: 0,
+          marginTop: "8px",
+          margin: "8px auto 0 auto",
+        }}
+      >
+        {/* Try your image first */}
+        <img
+          src="/readmore.png" // ← change to your exact filename
+          alt="read more"
+          style={{
+            width: "100px",
+            height: "20px",
+            objectFit: "contain",
+            transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.2s ease",
+          }}
+          onError={(e) => {
+            // Fallback if image not found
+            (e.target as HTMLImageElement).style.display = "none";
+          }}
+        />
+      </button>
+      </div>
+
+     <div style={{ height: '80px' }} />
+   
+{/* Crypto icons with glow */}
+<div style={{ position: 'relative', width: '100%',marginBottom:0 }}>
+     {/* Blue glow below icons */}
+  <div style={{
+    position: 'absolute',
+    bottom: '-30px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: '60%',
+    height: '80px',
+    background: 'radial-gradient(ellipse at center, rgba(20, 99, 255, 0.4) 0%, transparent 70%)',
+    pointerEvents: 'none',
+    filter: 'blur(15px)',
+    zIndex: 0,
+  }} />
+<div
        style={{
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   gap: isMobile ? "12px" : "20px",
+  padding:"16px 0",
   margin: isMobile ? "0" : "0 24px",
   flexWrap: isMobile ? "wrap" : "nowrap",
-  width: isMobile ? "100%" : "auto",
+  width: "100%",
+  position:"relative",
+  zIndex:1,
 }}
       >
         {cryptos.map((crypto) => (
@@ -322,34 +554,14 @@ export default function DepositStrip() {
           </div>
         ))}
       </div>
-
-      {/* Deposit Now button */}
-      <button
-        style={{
-  backgroundColor: "#FFC83D",
-  color: "#1A1404",
-  border: "none",
-  borderRadius: "8px",
-  padding: "0 20px",
-  width: isMobile ? "100%" : "auto",
-  maxWidth: isMobile ? "220px" : "none",
-  height: "40px",
-  fontSize: "14px",
-  fontWeight: 700,
-  cursor: "pointer",
-  fontFamily: "Inter, sans-serif",
-  whiteSpace: "nowrap",
-  flexShrink: 0,
-}}
-      >
-        Deposit Now
-      </button>
-    </div>
+          </div>
+             {/* HR line */}
+<hr style={{
+  width: '100%',
+  border: 'none',
+  borderTop: '1px solid rgba(255,255,255,0.08)',
+  margin: '0',   
+}} />
+    </section>
   );
-
-
-
-  
 }
-
-
