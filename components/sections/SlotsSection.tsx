@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Heart, Play } from "lucide-react";
 
 const slots = [
@@ -40,6 +40,46 @@ const slots = [
   },
   {
     id: 8,
+    image: "/slot8.png",
+    fallbackBg: "linear-gradient(135deg, #1a237e 0%, #283593 100%)",
+  },
+  {
+    id: 9,
+    image: "/slot1.png",
+    fallbackBg: "linear-gradient(135deg, #1a237e 0%, #283593 100%)",
+  },
+  {
+    id: 10,
+    image: "/slo2.png",
+    fallbackBg: "linear-gradient(135deg, #1a237e 0%, #0d1b6e 100%)",
+  },
+  {
+    id: 11,
+    image: "/slot3.png",
+    fallbackBg: "linear-gradient(135deg, #e65c00 0%, #f9a825 100%)",
+  },
+  {
+    id: 12,
+    image: "/slot4.png",
+    fallbackBg: "linear-gradient(135deg, #1b5e20 0%, #388e3c 100%)",
+  },
+  {
+    id: 13,
+    image: "/slot5.png",
+    fallbackBg: "linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%)",
+  },
+  {
+    id: 14,
+    image: "/slot6.png",
+    fallbackBg: "linear-gradient(135deg, #006064 0%, #00838f 100%)",
+  },
+  {
+    id: 15,
+    image: "/slot7.png",
+    fallbackBg: "linear-gradient(135deg, #bf360c 0%, #e64a19 100%)",
+  },
+  {
+    id: 16,
     image: "/slot8.png",
     fallbackBg: "linear-gradient(135deg, #1a237e 0%, #283593 100%)",
   },
@@ -180,6 +220,22 @@ pointerEvents: hovered ? "auto" : "none",
 export default function SlotsSection() {
   const [isMobile, setIsMobile] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+  scrollRef.current?.scrollBy({
+    left: -350,
+    behavior: "smooth",
+  });
+};
+
+const scrollRight = () => {
+  scrollRef.current?.scrollBy({
+    left: 350,
+    behavior: "smooth",
+  });
+};
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -263,6 +319,7 @@ export default function SlotsSection() {
           {!isMobile && (
             <>
  <button
+ onClick={scrollLeft}
             style={{
               width: "28px",
               height: "28px",
@@ -285,6 +342,7 @@ export default function SlotsSection() {
             </svg>
           </button>
           <button
+          onClick={scrollRight}
             style={{
               width: "28px",
               height: "28px",
@@ -314,16 +372,18 @@ export default function SlotsSection() {
 
       {/* Game cards row */}
       <div
-        style={{
-          display: "flex",
-           flexWrap: showAll ? "wrap" : "nowrap",
-         gap:  "12px",
-         overflowX: showAll ? "hidden" : "auto",
-          paddingBottom: "8px",
-          scrollbarWidth: "none",
-          justifyContent: showAll ? "flex-start" : "initial",
-        }}
-      >
+  ref={scrollRef}
+  style={{
+    display: "flex",
+    flexWrap: showAll ? "wrap" : "nowrap",
+    gap: "12px",
+    overflowX: showAll ? "hidden" : "auto",
+    paddingBottom: "8px",
+    scrollbarWidth: "none",
+    justifyContent: showAll ? "flex-start" : "initial",
+    scrollBehavior: "smooth",
+  }}
+>
         {(showAll || !isMobile ? slots : slots.slice(0, 4)).map((slot) => (
           <GameCard
             key={slot.id}

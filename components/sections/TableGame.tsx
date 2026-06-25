@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const originals = [
   {
@@ -39,6 +39,46 @@ const originals = [
   },
   {
     id: 8,
+    image: "/t8.png",
+    fallbackBg: "linear-gradient(135deg, #1a237e 0%, #283593 100%)",
+  },
+    {
+    id: 9,
+    image: "/t1.png",
+    fallbackBg: "linear-gradient(135deg, #1a237e 0%, #283593 100%)",
+  },
+  {
+    id: 10,
+    image: "/t2.png",
+    fallbackBg: "linear-gradient(135deg, #1a237e 0%, #0d1b6e 100%)",
+  },
+  {
+    id: 11,
+    image: "/t3.png",
+    fallbackBg: "linear-gradient(135deg, #e65c00 0%, #f9a825 100%)",
+  },
+  {
+    id: 12,
+    image: "/t4.png",
+    fallbackBg: "linear-gradient(135deg, #1b5e20 0%, #388e3c 100%)",
+  },
+  {
+    id: 13,
+    image: "/t5.png",
+    fallbackBg: "linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%)",
+  },
+  {
+    id: 14,
+    image: "/t6.png",
+    fallbackBg: "linear-gradient(135deg, #006064 0%, #00838f 100%)",
+  },
+  {
+    id: 15,
+    image: "/t7.png",
+    fallbackBg: "linear-gradient(135deg, #bf360c 0%, #e64a19 100%)",
+  },
+  {
+    id: 16,
     image: "/t8.png",
     fallbackBg: "linear-gradient(135deg, #1a237e 0%, #283593 100%)",
   },
@@ -85,6 +125,7 @@ function GameCard({
 export default function TableGame() {
   const [isMobile, setIsMobile] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -95,6 +136,19 @@ export default function TableGame() {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  const scrollLeft = () => {
+  scrollRef.current?.scrollBy({
+    left: -350,
+    behavior: "smooth",
+  });
+};
+
+const scrollRight = () => {
+  scrollRef.current?.scrollBy({
+    left: 350,
+    behavior: "smooth",
+  });
+};
   return (
     <section
       style={{
@@ -170,6 +224,7 @@ export default function TableGame() {
           {!isMobile && (
             <>
               <button
+              onClick={scrollLeft}
                 style={{
                   width: "28px",
                   height: "28px",
@@ -192,6 +247,7 @@ export default function TableGame() {
                 </svg>
               </button>
               <button
+              onClick={scrollRight}
                 style={{
                   width: "28px",
                   height: "28px",
@@ -220,6 +276,7 @@ export default function TableGame() {
 
       {/* Game cards row */}
       <div
+      ref={scrollRef}
         style={{
           display: "flex",
           flexWrap: showAll ? "wrap" : "nowrap",
@@ -228,6 +285,7 @@ export default function TableGame() {
           paddingBottom: "8px",
           scrollbarWidth: "none",
           justifyContent: showAll ? "flex-start" : "initial",
+          scrollBehavior: "smooth",
         }}
       >
         {(showAll || !isMobile ? originals : originals.slice(0, 4)).map(

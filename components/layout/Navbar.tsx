@@ -1,59 +1,99 @@
-'use client';
-import { useAppDispatch } from '@/app/store/hooks';
-import { toggleSidebar } from '@/app/store';
-import { useEffect, useState } from 'react';
+"use client";
+import { useAppDispatch } from "@/app/store/hooks";
+import { toggleSidebar } from "@/app/store";
+import { useEffect, useState } from "react";
 
-interface NavbarProps{
-  onLogin:()=>void;
-  onJoin:()=>void;
+interface NavbarProps {
+  onLogin: () => void;
+  onJoin: () => void;
 }
 
-export default function Navbar({
-  onLogin,
-  onJoin,
-}: NavbarProps) {
+export default function Navbar({ onLogin, onJoin }: NavbarProps) {
   const dispatch = useAppDispatch();
   const [isMobile, setIsMobile] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (savedUser && isLoggedIn === "true") {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  useEffect(() => {
+  const updateUser = () => {
+    const savedUser = localStorage.getItem("user");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (savedUser && isLoggedIn === "true") {
+      setUser(JSON.parse(savedUser));
+    } else {
+      setUser(null);
+    }
+  };
+
+  updateUser();
+
+  window.addEventListener("authChanged", updateUser);
+
+  return () => {
+    window.removeEventListener("authChanged", updateUser);
+  };
+}, []);
+
+  const handleLogout = () => {
+  localStorage.removeItem("isLoggedIn");
+  setUser(null);
+   window.dispatchEvent(new Event("authChanged"));
+  setShowProfileMenu(false);
+};
 
   return (
     <header
       style={{
-        backgroundColor: '#0C1F56',
-        height: '60px',
-        borderBottom: '1px solid rgba(255,255,255,0.08)',
-        padding: isMobile ? '10px 12px' : '10px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-        position: 'fixed',
+        backgroundColor: "#0C1F56",
+        height: "60px",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        padding: isMobile ? "10px 12px" : "10px 24px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+        position: "fixed",
         top: 0,
         left: 0,
         zIndex: 50,
-        boxSizing: 'border-box',
+        boxSizing: "border-box",
       }}
     >
       {/* LEFT + CENTER grouped */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '50px' }}>
-
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: isMobile ? "12px" : "50px",
+        }}
+      >
         {/* Hamburger */}
         <button
           onClick={() => dispatch(toggleSidebar())}
           style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
+            background: "none",
+            border: "none",
+            cursor: "pointer",
             padding: 0,
-            display: 'flex',
-            alignItems: 'center',
+            display: "flex",
+            alignItems: "center",
             flexShrink: 0,
           }}
         >
@@ -69,25 +109,48 @@ export default function Navbar({
         </button>
 
         {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0, position: 'relative' }}>
-          <div style={{
-            position: 'absolute',
-            left: '30px',
-            bottom: '-30px',
-            top: 'auto',
-            width: '70px',
-            height: '70px',
-            borderRadius: '50%',
-            backgroundColor: '#1463FF',
-            filter: 'blur(22px)',
-            opacity: 0.6,
-            pointerEvents: 'none',
-            zIndex: 0,
-          }} />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            flexShrink: 0,
+            position: "relative",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              left: "30px",
+              bottom: "-30px",
+              top: "auto",
+              width: "70px",
+              height: "70px",
+              borderRadius: "50%",
+              backgroundColor: "#1463FF",
+              filter: "blur(22px)",
+              opacity: 0.6,
+              pointerEvents: "none",
+              zIndex: 0,
+            }}
+          />
 
-          <svg style={{ position: 'relative', zIndex: 1 }} width="34" height="26" viewBox="103 14 36 27" fill="none">
+          <svg
+            style={{ position: "relative", zIndex: 1 }}
+            width="34"
+            height="26"
+            viewBox="103 14 36 27"
+            fill="none"
+          >
             <defs>
-              <linearGradient id="logoGold" x1="108.005" y1="27.3753" x2="133.35" y2="27.3753" gradientUnits="userSpaceOnUse">
+              <linearGradient
+                id="logoGold"
+                x1="108.005"
+                y1="27.3753"
+                x2="133.35"
+                y2="27.3753"
+                gradientUnits="userSpaceOnUse"
+              >
                 <stop stopColor="#FFD85A" />
                 <stop offset="1" stopColor="#FFB800" />
               </linearGradient>
@@ -99,69 +162,53 @@ export default function Navbar({
           </svg>
 
           {/* Hide text on very small screens */}
-          {!isMobile && (
-            <span style={{
-              position: 'relative',
-              zIndex: 1,
-              fontWeight: 900,
-              fontSize: '15px',
-              letterSpacing: '0.08em',
-              color: '#ffffff',
-              fontFamily: 'Inter, sans-serif',
-              textTransform: 'uppercase',
-              whiteSpace: 'nowrap',
-            }}>
-              MIGHTY{' '}
-              <span style={{
-                background: 'linear-gradient(90deg, #FFD85A 0%, #FFB800 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>
+          {(!isMobile || !user) && (
+            <span
+              style={{
+                position: "relative",
+                zIndex: 1,
+                fontWeight: 900,
+                fontSize: isMobile?"12px":"15px",
+                letterSpacing:isMobile?"0.06em": "0.08em",
+                color: "#ffffff",
+                fontFamily: "Inter, sans-serif",
+                textTransform: "uppercase",
+                whiteSpace: "nowrap",
+              }}
+            >
+              MIGHTY{" "}
+              <span
+                style={{
+                  background:
+                    "linear-gradient(90deg, #FFD85A 0%, #FFB800 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
                 LUCK
               </span>
             </span>
           )}
 
-          {/* Show text on mobile too but smaller */}
-          {isMobile && (
-            <span style={{
-              position: 'relative',
-              zIndex: 1,
-              fontWeight: 900,
-              fontSize: '12px',
-              letterSpacing: '0.06em',
-              color: '#ffffff',
-              fontFamily: 'Inter, sans-serif',
-              textTransform: 'uppercase',
-              whiteSpace: 'nowrap',
-            }}>
-              MIGHTY{' '}
-              <span style={{
-                background: 'linear-gradient(90deg, #FFD85A 0%, #FFB800 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>
-                LUCK
-              </span>
-            </span>
-          )}
+        
         </div>
 
         {/* Search — hidden on mobile, shown as icon instead */}
         {!isMobile && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            backgroundColor: '#112F82',
-            borderRadius: '8px',
-            padding: '0 16px',
-            height: '40px',
-            width: '280px',
-            flexShrink: 0,
-          }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              backgroundColor: "#112F82",
+              borderRadius: "8px",
+              padding: "0 16px",
+              height: "40px",
+              width: "280px",
+              flexShrink: 0,
+            }}
+          >
             <svg width="16" height="16" viewBox="359 21 17 17" fill="none">
               <path
                 fillRule="evenodd"
@@ -175,13 +222,13 @@ export default function Navbar({
               type="text"
               placeholder="What are you looking for?"
               style={{
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
-                color: '#BBCAF3',
-                fontSize: '13px',
-                width: '100%',
-                fontFamily: 'Inter, sans-serif',
+                background: "transparent",
+                border: "none",
+                outline: "none",
+                color: "#BBCAF3",
+                fontSize: "13px",
+                width: "100%",
+                fontFamily: "Inter, sans-serif",
               }}
             />
           </div>
@@ -189,22 +236,28 @@ export default function Navbar({
       </div>
 
       {/* RIGHT */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '6px' : '9px' }}>
-
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: isMobile ? "6px" : "10px",
+          flexShrink: 0,
+        }}
+      >
         {/* Search icon on mobile */}
-        {isMobile && (
+        {isMobile && !user && (
           <button
             onClick={() => setSearchOpen(!searchOpen)}
             style={{
-              background: '#112F82',
-              border: 'none',
-              borderRadius: '8px',
-              width: '36px',
-              height: '36px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
+              background: "#112F82",
+              border: "none",
+              borderRadius: "8px",
+              width: "36px",
+              height: "36px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
               flexShrink: 0,
             }}
           >
@@ -220,95 +273,309 @@ export default function Navbar({
           </button>
         )}
 
-        {/* Login */}
-        <button 
-        onClick={onLogin} 
-        style={{
-          backgroundColor: '#1463FF',
-          color: '#ffffff',
-          border: 'none',
-          borderRadius: '8px',
-          width: isMobile ? '64px' : '99px',
-          height: isMobile ? '36px' : '40px',
-          fontSize: isMobile ? '12px' : '14px',
-          fontWeight: 700,
-          cursor: 'pointer',
-          fontFamily: 'Inter, sans-serif',
-          flexShrink: 0,
-        }}>
-          Login
-        </button>
-
-        {/* Join */}
-        <button
-        onClick={onJoin} 
-        style={{
-          backgroundColor: '#FFC83D',
-          color: '#1A1404',
-          border: 'none',
-          borderRadius: '8px',
-          width: isMobile ? '54px' : '90px',
-          height: isMobile ? '36px' : '40px',
-          fontSize: isMobile ? '12px' : '14px',
-          fontWeight: 700,
-          cursor: 'pointer',
-          fontFamily: 'Inter, sans-serif',
-          flexShrink: 0,
-        }}>
-          Join
-        </button>
-      </div>
-
-      {/* Mobile search dropdown */}
-      {isMobile && searchOpen && (
-        <div style={{
-          position: 'absolute',
-          top: '60px',
-          left: 0,
-          right: 0,
-          backgroundColor: '#0C1F56',
-          padding: '10px 12px',
-          borderBottom: '1px solid rgba(255,255,255,0.1)',
-          zIndex: 49,
-        }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            backgroundColor: '#112F82',
-            borderRadius: '8px',
-            padding: '0 16px',
-            height: '40px',
-            width: '100%',
-            boxSizing: 'border-box',
-          }}>
-            <svg width="16" height="16" viewBox="359 21 17 17" fill="none">
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M365.561 22.0388C364.172 22.2143 362.858 22.8596 361.862 23.8563C359.976 25.7423 359.467 28.6013 360.592 30.9876C361.522 32.9595 363.377 34.3239 365.508 34.6031C367.088 34.8102 368.707 34.4042 369.999 33.4765C370.152 33.3662 370.289 33.276 370.302 33.276C370.316 33.276 371.361 34.3092 372.625 35.572C375.047 37.992 375.05 37.9943 375.329 37.9952C375.467 37.9956 375.737 37.8822 375.82 37.7891C375.91 37.6875 376 37.4552 376 37.3241C376 37.0449 375.998 37.0423 373.577 34.6196C372.314 33.3557 371.281 32.312 371.281 32.3003C371.281 32.2886 371.372 32.15 371.484 31.9922C372.261 30.8948 372.654 29.6705 372.656 28.3463C372.658 26.6335 372.001 25.049 370.789 23.8445C369.835 22.8959 368.657 22.2947 367.311 22.0692C366.887 21.9981 366.004 21.9828 365.561 22.0388ZM367.061 23.3833C368.487 23.6123 369.704 24.3828 370.476 25.5458C371.051 26.4108 371.315 27.2757 371.318 28.3057C371.32 28.8016 371.284 29.1022 371.171 29.5569C370.731 31.3153 369.32 32.7253 367.562 33.1654C367.107 33.2792 366.807 33.3146 366.311 33.3129C365.281 33.3094 364.416 33.0455 363.551 32.4709C362.171 31.5538 361.341 29.9996 361.341 28.3288C361.34 27.4883 361.513 26.784 361.904 26.027C362.536 24.804 363.659 23.8936 365.014 23.5049C365.585 23.3411 366.47 23.2884 367.061 23.3833Z"
-                fill="white"
-                opacity="0.5"
-              />
-            </svg>
-            <input
-              type="text"
-              placeholder="What are you looking for?"
-              autoFocus
+        {user ? (
+          <>
+            {/* Wallet Balance Display Box */}
+            <div
               style={{
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
-                color: '#BBCAF3',
-                fontSize: '14px',
-                width: '100%',
-                fontFamily: 'Inter, sans-serif',
+                backgroundColor: "#112F82",
+                color: "#ffffff",
+                padding: isMobile ? "0 10px" : "0 16px",
+                height: isMobile ? "36px" : "40px",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                fontWeight: "700",
+                fontSize: isMobile ? "12px" : "14px",
+                fontFamily: "Inter, sans-serif",
               }}
-            />
-          </div>
-        </div>
-      )}
+            >
+              $
+              {user.balance !== undefined
+                ? Number(user.balance).toFixed(2)
+                : "105.98"}
+            </div>
+                
+            {/* Deposit Action Button */}
+            <button
+              style={{
+                backgroundColor: "#FFC83D",
+                color: "#1A1404",
+                border: "none",
+                borderRadius: "8px",
+                height: isMobile ? "36px" : "40px",
+                padding: isMobile ? "0 10px" : "0 16px",
+                fontWeight: "700",
+                fontSize: isMobile ? "12px" : "14px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M7.34375 1C7.9875 1 8.70625 1.0125 8.9375 1.03125C9.16875 1.05 9.6375 1.09063 9.97812 1.125C10.425 1.16875 10.6625 1.20625 10.8531 1.26562C10.9937 1.3125 11.1938 1.39062 11.2969 1.44063C11.4 1.49375 11.5813 1.6 11.7031 1.68125C11.8219 1.75937 12.0312 1.9375 12.1687 2.075C12.3031 2.2125 12.4969 2.45 12.6 2.60625C12.7 2.7625 12.8219 2.975 12.8687 3.08125C12.9156 3.19062 12.9469 3.28437 12.9375 3.29375C12.9281 3.30313 12.6062 3.29063 12.2188 3.2625C11.8313 3.2375 11.2125 3.2 10.8438 3.18438C10.475 3.16563 9.475 3.14375 8.625 3.13125C7.66875 3.12187 6.7125 3.12813 6.125 3.15C5.6 3.16875 4.89687 3.2 4.5625 3.21875C4.22813 3.23438 3.6875 3.26875 3.35938 3.29688C3.03437 3.32188 2.675 3.35625 2.5625 3.375C2.45 3.39062 2.275 3.42812 2.17188 3.45312C2.06875 3.48125 1.92188 3.525 1.84375 3.55C1.76562 3.575 1.57812 3.65937 1.42188 3.7375C1.26562 3.81562 1.07187 3.92812 0.984375 3.98438C0.9 4.04375 0.825 4.08125 0.81875 4.06875C0.8125 4.05312 0.834375 3.93125 0.86875 3.79375C0.903125 3.65625 0.971875 3.4375 1.02813 3.30938C1.08125 3.18125 1.20625 2.95 1.30625 2.79375C1.40937 2.6375 1.60625 2.39687 1.74688 2.25312C1.88438 2.1125 2.10313 1.925 2.22813 1.8375C2.35 1.75 2.55312 1.62813 2.67188 1.56875C2.79063 1.50625 2.99062 1.42188 3.10938 1.38125C3.22813 1.34062 3.55938 1.27187 3.84375 1.23125C4.12813 1.1875 4.64062 1.13125 4.98438 1.10625C5.32812 1.07812 5.7375 1.04375 5.89062 1.03125C6.04375 1.01562 6.7 1.00313 7.34375 1V1ZM7.8125 3.94062C8.525 3.9375 9.525 3.95 10.0312 3.96563C10.5375 3.98125 11.2344 4.0125 11.5781 4.02813C11.9219 4.04688 12.4781 4.08125 12.8125 4.10938C13.1469 4.13438 13.5125 4.175 13.625 4.19688C13.7375 4.22188 13.9406 4.28437 14.0781 4.33437C14.2156 4.3875 14.4406 4.50312 14.5781 4.59375C14.7156 4.68438 14.925 4.85 15.0437 4.9625C15.1594 5.075 15.3188 5.25312 15.3906 5.35625C15.4656 5.45937 15.5812 5.6625 15.65 5.80937C15.7188 5.95625 15.7969 6.175 15.8219 6.29375C15.85 6.41562 15.8875 6.68125 15.9062 6.8875C15.925 7.09375 15.9531 7.4 15.9688 7.56875C15.9875 7.73438 16 8.31875 16 8.86562C16 9.56875 15.9812 10.0781 15.9375 10.6219C15.9031 11.0437 15.8531 11.5562 15.8281 11.7625C15.8 11.9688 15.7594 12.2656 15.7344 12.4187C15.7094 12.5719 15.6594 12.7969 15.6219 12.9187C15.5875 13.0406 15.4937 13.2562 15.4187 13.4031C15.3438 13.55 15.1875 13.7875 15.0688 13.9344C14.95 14.0813 14.7375 14.2969 14.5906 14.4125C14.4469 14.5281 14.2094 14.6844 14.0625 14.7625C13.9156 14.8375 13.7094 14.9281 13.6 14.9625C13.4938 15 13.275 15.05 13.1187 15.075C12.9594 15.1 12.5906 15.1406 12.2969 15.1656C12.0031 15.1906 11.4219 15.2344 11 15.2594C10.5781 15.2844 9.95312 15.3219 9.60938 15.3438C9.21562 15.3656 8.49687 15.375 7.67188 15.3625C6.95 15.3562 5.99375 15.325 5.54688 15.2969C5.1 15.2719 4.45312 15.225 4.10938 15.1969C3.76562 15.1719 3.33125 15.1312 3.14062 15.1062C2.95312 15.0844 2.69688 15.0406 2.57812 15.0125C2.45937 14.9812 2.24062 14.9031 2.09375 14.8344C1.94687 14.7656 1.73125 14.6469 1.60938 14.5656C1.49063 14.4844 1.2875 14.3125 1.15625 14.1844C1.02813 14.0562 0.85625 13.8531 0.778125 13.7312C0.696875 13.6094 0.5875 13.425 0.534375 13.3188C0.48125 13.2094 0.403125 13 0.359375 12.85C0.31875 12.6969 0.25625 12.3781 0.221875 12.1375C0.1875 11.8969 0.1375 11.4688 0.1125 11.1844C0.084375 10.9 0.05 10.4969 0.03125 10.2875C0.015625 10.075 0 9.45625 0 8.9125C0 8.36562 0.0125 7.76562 0.03125 7.575C0.05 7.38437 0.078125 7.06875 0.096875 6.87187C0.115625 6.675 0.15 6.42188 0.175 6.30937C0.2 6.19687 0.25625 6.01562 0.303125 5.90312C0.346875 5.79062 0.45 5.6 0.525 5.48125C0.603125 5.3625 0.75 5.17188 0.85625 5.0625C0.9625 4.95312 1.125 4.80625 1.21875 4.73125C1.3125 4.65937 1.46875 4.55625 1.5625 4.50312C1.65625 4.45 1.85 4.3625 1.99375 4.30938C2.13438 4.25938 2.38125 4.19688 2.54063 4.17188C2.69688 4.14687 3.04063 4.1125 3.29688 4.09375C3.55625 4.075 4.075 4.04375 4.45312 4.025C4.83125 4.00625 5.45 3.98125 5.82812 3.96875C6.20625 3.95625 7.1 3.94062 7.8125 3.94062ZM12.7031 8.66563C12.6187 8.70937 12.4844 8.80938 12.4062 8.89375C12.3313 8.975 12.2375 9.11562 12.1969 9.2C12.1594 9.2875 12.1187 9.43437 12.1062 9.52812C12.0938 9.64687 12.1031 9.76562 12.1375 9.90312C12.1656 10.0156 12.2375 10.1813 12.2969 10.2719C12.3562 10.3594 12.4656 10.4781 12.5406 10.5281C12.6125 10.5813 12.75 10.6531 12.8438 10.6875C12.9812 10.7406 13.0656 10.75 13.2656 10.7406C13.4312 10.7313 13.5625 10.7031 13.6562 10.6594C13.7344 10.6219 13.8656 10.5344 13.95 10.4594C14.0437 10.375 14.1375 10.25 14.2 10.1219C14.2875 9.94063 14.2969 9.89062 14.2969 9.6375C14.2937 9.41562 14.2781 9.325 14.225 9.20938C14.1875 9.125 14.0906 8.9875 14.0094 8.9C13.925 8.8125 13.7969 8.70625 13.7188 8.66875C13.6406 8.62812 13.4937 8.58125 13.3906 8.5625C13.2875 8.54375 13.1906 8.52812 13.1719 8.53125C13.1531 8.53438 13.0781 8.54688 13 8.5625C12.9219 8.57812 12.7906 8.625 12.7031 8.66563Z"
+                  fill="#1A1404"
+                />
+              </svg>
+              {!isMobile && "Deposit"}
+            </button>
 
+            {/* Notification Bell Badge */}
+            <button
+              style={{
+                backgroundColor: "#112F82",
+                border: "none",
+                borderRadius: "8px",
+                width: isMobile ? "36px" : "40px",
+                height: isMobile ? "36px" : "40px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+              }}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6.70973 0.293344C6.81689 0.229046 7.0205 0.139743 7.15624 0.0897327C7.34557 0.0218622 7.48488 0.000429465 7.72778 0.000429465C7.98498 -0.00314267 8.10286 0.014718 8.31718 0.0861606C8.46364 0.13617 8.66725 0.221902 8.7637 0.275483C8.86372 0.329065 9.05662 0.482667 9.19593 0.62198C9.33167 0.761293 9.50313 0.968477 9.571 1.08636C9.64244 1.20424 9.73889 1.39713 9.87106 1.73648L10.2104 1.9008C10.3962 1.99011 10.6712 2.14371 10.8177 2.24015C10.9641 2.3366 11.1892 2.50092 11.3178 2.61166C11.4464 2.71882 11.6536 2.93315 11.7786 3.09032C11.9036 3.24392 12.0465 3.43682 12.0965 3.51541C12.1465 3.59399 12.2501 3.78689 12.3287 3.94406C12.4073 4.10123 12.518 4.36557 12.5752 4.53346C12.6287 4.70135 12.7073 4.99784 12.7466 5.19431C12.7859 5.39077 12.8324 5.71941 12.8538 5.92659C12.8752 6.13378 12.8895 6.541 12.8895 6.83749C12.8895 7.1304 12.9074 7.5662 12.9252 7.80196C12.9467 8.03772 12.9895 8.38422 13.0181 8.56997C13.0503 8.75572 13.1146 9.03792 13.1646 9.19509C13.2146 9.35227 13.311 9.5916 13.3825 9.73091C13.4503 9.87022 13.5682 10.0703 13.6397 10.1774C13.7147 10.2846 13.9219 10.5596 14.104 10.7847C14.2862 11.0097 14.4577 11.2384 14.4827 11.2955C14.5113 11.3491 14.5541 11.492 14.5827 11.6134C14.6256 11.8099 14.6256 11.8706 14.5827 12.0707C14.5541 12.1993 14.4863 12.3814 14.4327 12.4779C14.3791 12.5743 14.2576 12.7244 14.1576 12.8101C14.0612 12.8958 13.8897 13.003 13.5861 13.1244H1.90521L1.70874 13.0458C1.60158 13.003 1.43369 12.8958 1.33367 12.8101C1.23722 12.7244 1.1122 12.5743 1.05862 12.4779C1.00503 12.3814 0.940736 12.1993 0.908587 12.0707C0.865721 11.8742 0.865721 11.8063 0.905015 11.6241C0.93002 11.5063 0.972885 11.3598 1.00146 11.3026C1.03361 11.2455 1.20507 11.0097 1.38725 10.7847C1.56943 10.5596 1.77661 10.2846 1.85163 10.1774C1.92307 10.0703 2.03738 9.87737 2.10168 9.74877C2.16598 9.62018 2.25528 9.41299 2.29815 9.2844C2.34101 9.1558 2.40531 8.92361 2.43389 8.76644C2.46604 8.60926 2.5089 8.34493 2.53033 8.17704C2.55177 8.00914 2.58392 7.40546 2.60178 6.83749C2.62321 6.21951 2.65893 5.66583 2.69108 5.46222C2.72323 5.27647 2.78038 4.99427 2.81968 4.83709C2.86254 4.67992 2.95185 4.40487 3.02329 4.22983C3.09473 4.0548 3.23047 3.77974 3.32692 3.62257C3.42337 3.4654 3.59126 3.22606 3.70199 3.09032C3.81273 2.95458 4.05206 2.71882 4.23067 2.57236C4.41285 2.42233 4.68433 2.22587 4.83793 2.13299C4.9951 2.04012 5.23444 1.91509 5.37018 1.85436C5.61874 1.74784 5.62022 1.74368 5.69742 1.52608L5.69881 1.52216C5.74525 1.4007 5.85956 1.17923 5.95601 1.03278C6.04888 0.886318 6.21677 0.682706 6.32036 0.586259C6.42753 0.486239 6.60256 0.357643 6.70973 0.293344Z"
+                  fill="#D2DCF7"
+                />
+                <path
+                  d="M5.20229 14.4175C5.19872 14.3925 5.21658 14.3532 5.24515 14.3282C5.28445 14.2961 5.89171 14.2854 7.74207 14.2854C9.67459 14.2854 10.2033 14.2925 10.239 14.3282C10.264 14.3532 10.2819 14.3961 10.2819 14.4175C10.2819 14.4426 10.2104 14.5711 10.1283 14.7033C10.0425 14.8391 9.87821 15.0391 9.76033 15.157C9.64602 15.2713 9.45312 15.432 9.33524 15.5106C9.21736 15.5928 9.01732 15.6999 8.88873 15.7535C8.76013 15.8071 8.53151 15.8857 8.38148 15.925C8.18859 15.9786 7.99212 16 7.74564 16C7.50274 16 7.3027 15.9786 7.12052 15.9286C6.97406 15.8893 6.75974 15.8214 6.649 15.775C6.53469 15.7285 6.32751 15.6178 6.19177 15.5285C6.05603 15.4392 5.84527 15.2713 5.73096 15.157C5.61308 15.0391 5.44876 14.8391 5.36303 14.7033C5.28087 14.5711 5.20586 14.4426 5.20229 14.4175Z"
+                  fill="#D2DCF7"
+                />
+              </svg>
+              <span
+                style={{
+                  position: "absolute",
+                  top: "6px",
+                  right: "6px",
+                  width: "6px",
+                  height: "6px",
+                  backgroundColor: "#FF3B30",
+                  borderRadius: "50%",
+                }}
+              />
+            </button>
+
+            {/* Gift Box Rewards Center */}
+            <button
+              style={{
+                backgroundColor: "#112F82",
+                border: "none",
+                borderRadius: "8px",
+                width: isMobile ? "36px" : "40px",
+                height: isMobile ? "36px" : "40px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+              }}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M5.52952 0.00038079C5.6165 -0.00309877 5.787 0.0177786 5.91227 0.0421355C6.03753 0.0699719 6.23935 0.122165 6.36461 0.16392C6.48987 0.205675 6.70908 0.313541 6.85175 0.407489C6.99441 0.501437 7.1997 0.671935 7.30409 0.78676C7.40848 0.901586 7.54766 1.07904 7.60681 1.18343C7.66944 1.28782 7.75991 1.48267 7.80515 1.61489C7.85038 1.74712 7.90257 1.96285 7.92693 2.09159C7.94781 2.22382 7.97564 2.3282 7.99304 2.3282C8.00696 2.3282 8.05219 2.16814 8.09743 1.96981C8.13918 1.77147 8.22617 1.50703 8.29576 1.37133C8.36187 1.23562 8.4941 1.03381 8.58457 0.918984C8.67851 0.804158 8.85249 0.63366 8.97776 0.539712C9.09954 0.445764 9.2944 0.323979 9.40922 0.271786C9.52405 0.216113 9.7189 0.146522 9.84416 0.115206C9.98335 0.076931 10.206 0.0525741 10.4183 0.0525741C10.6097 0.0525741 10.8532 0.0699719 10.9576 0.0978084C11.062 0.122165 11.2951 0.212634 11.4691 0.296143C11.6988 0.404009 11.8588 0.511876 12.0258 0.664976C12.1511 0.78676 12.3286 0.992054 12.4156 1.12776C12.5095 1.26694 12.6209 1.50355 12.68 1.68449C12.774 1.96981 12.7844 2.0394 12.7809 2.44999C12.7809 2.78055 12.7635 2.958 12.7183 3.1111C12.6835 3.22593 12.6104 3.41035 12.4538 3.72003L15.1157 3.73742L15.3523 3.84877C15.5263 3.93576 15.6202 4.00883 15.7281 4.14453C15.8116 4.25588 15.8951 4.41942 15.9369 4.55512C15.9995 4.76389 16.0065 4.86828 15.996 5.84256C15.9856 6.85163 15.9821 6.91426 15.9056 7.0952C15.8638 7.19958 15.7733 7.35268 15.7072 7.43271C15.6272 7.53014 15.5054 7.62061 15.1157 7.8085H0.884308L0.647699 7.69368C0.473721 7.61017 0.379773 7.5371 0.271907 7.39792C0.188397 7.29005 0.104888 7.12651 0.0631332 6.99081C0.000501222 6.78204 -0.00645789 6.67765 0.00398078 5.70337C0.0144194 4.6943 0.017899 4.63167 0.0944492 4.45073C0.136204 4.34635 0.226672 4.19325 0.292784 4.10974C0.372814 4.01579 0.494598 3.92532 0.884308 3.73742L2.2135 3.72699C2.94769 3.72351 3.54617 3.71307 3.54617 3.70263C3.54617 3.69219 3.51485 3.63304 3.48006 3.57041C3.44178 3.51125 3.36871 3.3338 3.31652 3.18069C3.25041 2.9754 3.21909 2.80838 3.20865 2.53698C3.19473 2.27949 3.20865 2.09507 3.24693 1.91066C3.27476 1.768 3.37219 1.50703 3.4557 1.33653C3.55313 1.14168 3.68535 0.939861 3.81409 0.800679C3.92544 0.678894 4.11682 0.511876 4.24208 0.431846C4.36734 0.348336 4.53088 0.254388 4.60743 0.223072C4.68398 0.191756 4.88928 0.129124 5.05978 0.0838901C5.23027 0.0386559 5.44253 0.00038079 5.52952 0.00038079ZM4.8858 1.34349C4.82665 1.38176 4.71878 1.48267 4.64571 1.56618C4.56916 1.64969 4.46825 1.80627 4.41954 1.91066C4.34299 2.07072 4.32907 2.15423 4.32907 2.41867C4.32907 2.70748 4.33951 2.74923 4.45433 2.9928C4.53436 3.15634 4.63875 3.299 4.7327 3.38599C4.81621 3.45906 4.97279 3.55997 5.07717 3.61216C5.26855 3.70263 5.27551 3.70263 6.19063 3.71307L7.11271 3.72351C6.84131 2.34212 6.74736 1.96633 6.69517 1.84802C6.64645 1.7506 6.53859 1.5975 6.4516 1.51051C6.36461 1.42352 6.20455 1.31217 6.0932 1.25998C5.9401 1.18343 5.83224 1.16255 5.6165 1.15559C5.41469 1.14863 5.28943 1.16255 5.16416 1.20779C5.06673 1.24258 4.94495 1.30173 4.8858 1.34349ZM9.8546 1.29826C9.7537 1.34697 9.60756 1.45136 9.531 1.52791C9.45445 1.60446 9.35007 1.7506 9.30135 1.84802C9.23872 1.97677 9.16217 2.27601 9.05779 2.81534C8.97428 3.24681 8.89773 3.62608 8.88729 3.65739C8.86989 3.71655 8.92904 3.72003 9.81633 3.70959L10.7662 3.70263C11.062 3.55997 11.2221 3.44166 11.3091 3.34771C11.396 3.25725 11.5039 3.1111 11.5491 3.02411C11.5909 2.93713 11.6431 2.76663 11.657 2.64136C11.6779 2.49174 11.6744 2.34212 11.6501 2.20642C11.6292 2.09159 11.577 1.92805 11.5317 1.84107C11.49 1.75408 11.3752 1.61142 11.2847 1.52443C11.1908 1.43744 11.0516 1.33305 10.975 1.29478C10.8985 1.2565 10.7523 1.20431 10.6514 1.18343C10.554 1.16255 10.4357 1.14515 10.3905 1.14863C10.3487 1.15211 10.2513 1.16603 10.1747 1.17995C10.0982 1.19387 9.95203 1.24606 9.85112 1.29826H9.8546ZM1.14875 8.93936H14.8512L14.8408 15.0112L14.7503 15.2026C14.7016 15.3069 14.6007 15.4635 14.5242 15.547C14.4511 15.6305 14.3189 15.7384 14.2319 15.7871C14.1449 15.8393 13.9848 15.9054 13.8735 15.9402C13.6856 15.9994 13.355 16.0029 8.00348 16.0029C2.65192 16.0029 2.32137 15.9994 2.12999 15.9402C2.02212 15.9054 1.86206 15.8393 1.77507 15.7871C1.68809 15.7384 1.55586 15.6305 1.48279 15.547C1.40624 15.4635 1.30533 15.3069 1.16615 15.0112L1.14875 8.93936Z"
+                  fill="#D2DCF7"
+                />
+              </svg>
+              <span
+                style={{
+                  position: "absolute",
+                  top: "6px",
+                  right: "6px",
+                  width: "6px",
+                  height: "6px",
+                  backgroundColor: "#FF3B30",
+                  borderRadius: "50%",
+                }}
+              />
+            </button>
+
+            {/* User Profile Navigation Avatar  */}
+            <div style={{position:"relative",}}>
+            <div
+            onClick={()=>setShowProfileMenu((prev)=>!prev)}
+              style={{
+                width: isMobile ? "36px" : "40px",
+                height: isMobile ? "36px" : "40px",
+                borderRadius: "50%",
+                backgroundColor: "#1F429F",
+                overflow: "hidden",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "2px solid #FFC83D",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src="/nav-av.png"
+                alt="Profile Avatar"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            </div>
+              {showProfileMenu && (
+    <div
+      style={{
+        position: "absolute",
+        top: "48px",
+        right: 0,
+        background: "#112F82",
+        borderRadius: "8px",
+        minWidth: "120px",
+        overflow: "hidden",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+        zIndex: 999,
+      }}
+    >
+      <button
+        onClick={handleLogout}
+        style={{
+          width: "100%",
+          padding: "12px",
+          border: "none",
+          background: "transparent",
+          color: "#fff",
+          cursor: "pointer",
+          textAlign: "left",
+          fontSize: "14px",
+        }}
+      >
+        Logout
+      </button>
+    </div>
+  )}
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Login */}
+            <button
+              onClick={onLogin}
+              style={{
+                backgroundColor: "#1463FF",
+                color: "#ffffff",
+                border: "none",
+                borderRadius: "8px",
+                width: isMobile ? "64px" : "99px",
+                height: isMobile ? "36px" : "40px",
+                fontSize: isMobile ? "12px" : "14px",
+                fontWeight: 700,
+                cursor: "pointer",
+                fontFamily: "Inter, sans-serif",
+                flexShrink: 0,
+              }}
+            >
+              Login
+            </button>
+
+            {/* Join */}
+            <button
+              onClick={onJoin}
+              style={{
+                backgroundColor: "#FFC83D",
+                color: "#1A1404",
+                border: "none",
+                borderRadius: "8px",
+                width: isMobile ? "54px" : "90px",
+                height: isMobile ? "36px" : "40px",
+                fontSize: isMobile ? "12px" : "14px",
+                fontWeight: 700,
+                cursor: "pointer",
+                fontFamily: "Inter, sans-serif",
+                flexShrink: 0,
+              }}
+            >
+              Join
+            </button>
+
+            {/* Mobile search dropdown */}
+            {isMobile && searchOpen && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "60px",
+                  left: 0,
+                  right: 0,
+                  backgroundColor: "#0C1F56",
+                  padding: "10px 12px",
+                  borderBottom: "1px solid rgba(255,255,255,0.1)",
+                  zIndex: 49,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    backgroundColor: "#112F82",
+                    borderRadius: "8px",
+                    padding: "0 16px",
+                    height: "40px",
+                    width: "100%",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="359 21 17 17"
+                    fill="none"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M365.561 22.0388C364.172 22.2143 362.858 22.8596 361.862 23.8563C359.976 25.7423 359.467 28.6013 360.592 30.9876C361.522 32.9595 363.377 34.3239 365.508 34.6031C367.088 34.8102 368.707 34.4042 369.999 33.4765C370.152 33.3662 370.289 33.276 370.302 33.276C370.316 33.276 371.361 34.3092 372.625 35.572C375.047 37.992 375.05 37.9943 375.329 37.9952C375.467 37.9956 375.737 37.8822 375.82 37.7891C375.91 37.6875 376 37.4552 376 37.3241C376 37.0449 375.998 37.0423 373.577 34.6196C372.314 33.3557 371.281 32.312 371.281 32.3003C371.281 32.2886 371.372 32.15 371.484 31.9922C372.261 30.8948 372.654 29.6705 372.656 28.3463C372.658 26.6335 372.001 25.049 370.789 23.8445C369.835 22.8959 368.657 22.2947 367.311 22.0692C366.887 21.9981 366.004 21.9828 365.561 22.0388ZM367.061 23.3833C368.487 23.6123 369.704 24.3828 370.476 25.5458C371.051 26.4108 371.315 27.2757 371.318 28.3057C371.32 28.8016 371.284 29.1022 371.171 29.5569C370.731 31.3153 369.32 32.7253 367.562 33.1654C367.107 33.2792 366.807 33.3146 366.311 33.3129C365.281 33.3094 364.416 33.0455 363.551 32.4709C362.171 31.5538 361.341 29.9996 361.341 28.3288C361.34 27.4883 361.513 26.784 361.904 26.027C362.536 24.804 363.659 23.8936 365.014 23.5049C365.585 23.3411 366.47 23.2884 367.061 23.3833Z"
+                      fill="white"
+                      opacity="0.5"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="What are you looking for?"
+                    autoFocus
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      outline: "none",
+                      color: "#BBCAF3",
+                      fontSize: "14px",
+                      width: "100%",
+                      fontFamily: "Inter, sans-serif",
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </header>
   );
 }

@@ -1,11 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const providers = [
   { id: 1, image: "/co1.png", games: 226, name: "MYTHOLOGY" },
   { id: 2, image: "/co2.png", games: 226, name: "FRUITS" },
   { id: 3, image: "/co3.png", games: 226, name: "ANIMALS" },
   { id: 4, image: "/co4.png", games: 226, name: "ASIA" },
+  { id: 5, image: "/co1.png", games: 226, name: "MYTHOLOGY" },
+  { id: 6, image: "/co2.png", games: 226, name: "FRUITS" },
+  { id: 7, image: "/co3.png", games: 226, name: "ANIMALS" },
+  { id: 8, image: "/co4.png", games: 226, name: "ASIA" },
 ];
 
 function ProviderCard({
@@ -30,12 +34,9 @@ function ProviderCard({
       style={{
         // Exact Figma: w=152, h=100, p=12px 24px, gap=8px, radius=12px
         // width: isMobile ? '120px' : '152px',
-        width: "100%",
-        minHeight: "100px",
-        paddingTop: "12px",
-        paddingBottom: "12px",
-        paddingLeft: "24px",
-        paddingRight: "24px",
+        width:"100%",
+        minHeight: isMobile ? "80px" : "100px",
+       padding: isMobile ? "10px 12px" : "12px 24px",
         gap: "12px",
         borderRadius: "12px",
         backgroundColor: active || hovered ? "#1a56db" : "#0C1F56",
@@ -43,6 +44,7 @@ function ProviderCard({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        fontSize: isMobile ? "13px" : "22px",
         cursor: "pointer",
         flexShrink: 0,
         boxSizing: "border-box",
@@ -50,6 +52,9 @@ function ProviderCard({
         border: active
           ? "1px solid rgba(255,255,255,0.15)"
           : "1px solid transparent",
+          whiteSpace: "normal",
+wordBreak: "break-word",
+textAlign: "center",
       }}
     >
       {/* Provider logo — exact: w=80, h=40 */}
@@ -114,6 +119,7 @@ function ProviderCard({
 export default function Collection() {
   const [isMobile, setIsMobile] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -121,6 +127,20 @@ export default function Collection() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const scrollLeft = () => {
+  scrollRef.current?.scrollBy({
+    left: -350,
+    behavior: "smooth",
+  });
+};
+
+const scrollRight = () => {
+  scrollRef.current?.scrollBy({
+    left: 350,
+    behavior: "smooth",
+  });
+};
 
   const visibleProviders =
     isMobile && !showAll ? providers.slice(0, 2) : providers;
@@ -227,6 +247,7 @@ export default function Collection() {
           {!isMobile && (
             <>
               <button
+              onClick={scrollLeft}
                 style={{
                   width: "28px",
                   height: "28px",
@@ -249,6 +270,7 @@ export default function Collection() {
                 </svg>
               </button>
               <button
+              onClick={scrollRight}
                 style={{
                   width: "28px",
                   height: "28px",
@@ -276,9 +298,11 @@ export default function Collection() {
       </div>
 
       {/* Provider cards row — exact: w=1300, h=100, gap=12px */}
-      <div
+      {/* <div
+      ref={scrollRef}
         style={{
           display: isMobile ? "grid" : "grid",
+          scrollbarWidth: "none",
           gridTemplateColumns: isMobile
             ? showAll
               ? "repeat(2, minmax(0, 1fr))"
@@ -287,9 +311,36 @@ export default function Collection() {
           gap: "12px",
           width: "100%",
           paddingBottom: "8px",
+          scrollBehavior: "smooth",
         }}
-      >
+      > */}
+      <div
+  ref={scrollRef}
+  style={{
+    display: isMobile ? "grid" : "flex",
+      gridTemplateColumns: isMobile
+      ? "repeat(2, minmax(0, 1fr))"
+      : undefined,
+    flexWrap: !isMobile ? "nowrap" : undefined,
+    gap: "12px",
+     overflowX: !isMobile ? "hidden" : "visible",
+     width:"100%",
+    paddingBottom: "8px",
+    scrollbarWidth: "none",
+    justifyContent: showAll ? "flex-start" : "initial",
+    scrollBehavior: "smooth",
+  }}
+>
         {visibleProviders.map((p) => (
+           <div
+      key={p.id}
+      style={{
+        width: isMobile
+          ? "100%"
+          : "calc((100% - 36px) / 4)", // 4 cards on desktop
+        flexShrink: 0,
+      }}
+    >
           <ProviderCard
             key={p.id}
             image={p.image}
@@ -297,6 +348,7 @@ export default function Collection() {
             name={p.name}
             isMobile={isMobile}
           />
+          </div>
         ))}
       </div>
     </section>
