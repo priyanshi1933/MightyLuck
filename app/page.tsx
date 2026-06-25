@@ -17,12 +17,14 @@ import RecentWinner from "@/components/sections/RecentWinner";
 import AboutSection from "@/components/sections/AboutSection";
 import Footer from "@/components/layout/Footer";
 import AuthModal from "@/components/ui/AuthModal";
+import DepositCryptoModal from "@/components/ui/DepositCryptoModal";
 
 export default function Home() {
   const sidebarOpen = useAppSelector((s) => s.ui.sidebarOpen);
   const [isMobile, setIsMobile] = useState(false);
   const [authModal, setAuthModal] = useState(false);
   const [authTab, setAuthTab] = useState<"join" | "login">("join");
+  const [showDepositModal, setShowDepositModal] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -49,6 +51,7 @@ export default function Home() {
           setAuthTab("join");
           setAuthModal(true);
         }}
+        onDeposit={() => setShowDepositModal(true)}
       />
       <Sidebar />
 
@@ -71,6 +74,7 @@ export default function Home() {
         </div>
 
         <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
+        <DepositCryptoModal isOpen={showDepositModal} onClose={() => setShowDepositModal(false)}/>
 
         <div
           style={{

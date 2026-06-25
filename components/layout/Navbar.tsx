@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 interface NavbarProps {
   onLogin: () => void;
   onJoin: () => void;
+  onDeposit:()=>void;
 }
 
-export default function Navbar({ onLogin, onJoin }: NavbarProps) {
+export default function Navbar({ onLogin, onJoin, onDeposit }: NavbarProps) {
   const dispatch = useAppDispatch();
   const [isMobile, setIsMobile] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -298,6 +299,7 @@ export default function Navbar({ onLogin, onJoin }: NavbarProps) {
                 
             {/* Deposit Action Button */}
             <button
+            onClick={onDeposit}
               style={{
                 backgroundColor: "#FFC83D",
                 color: "#1A1404",

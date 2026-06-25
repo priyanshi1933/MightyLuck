@@ -518,6 +518,7 @@ export default function DepositStrip() {
             );
           })}
         </div>
+        
       ) : (
         <div
           style={{
