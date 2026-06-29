@@ -1,6 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import { X, Eye, EyeOff, ChevronDown } from "lucide-react";
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -191,6 +198,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               activeTab === "join" ? "#2E6BFF" : "transparent",
             color: "#fff",
             fontSize: "14px",
+            fontFamily: manrope.style.fontFamily,
             fontWeight: 700,
             cursor: "pointer",
             transition: ".2s",
@@ -209,6 +217,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
             color: "#fff",
             fontSize: "14px",
             fontWeight: 700,
+            fontFamily: manrope.style.fontFamily,
             cursor: "pointer",
             transition: ".2s",
           }}
@@ -353,7 +362,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     color: "#ffffff",
                     fontWeight: 700,
                     fontSize: "14px",
-                    fontFamily: "Inter, sans-serif",
+                    fontFamily: manrope.style.fontFamily,
                     transition: "background-color 0.2s",
                   }}
                 >
@@ -372,7 +381,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     color: activeTab === "login" ? "#ffffff" : "#8899cc",
                     fontWeight: 700,
                     fontSize: "14px",
-                    fontFamily: "Inter, sans-serif",
+                   fontFamily: manrope.style.fontFamily,
                     transition: "background-color 0.2s",
                   }}
                 >
@@ -405,7 +414,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     padding: "0 16px",
                     color: "#ffffff",
                     fontSize: "14px",
-                    fontFamily: "Inter, sans-serif",
+                    fontFamily: manrope.style.fontFamily,
                     outline: "none",
                     boxSizing: "border-box",
                   }}
@@ -425,11 +434,11 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       backgroundColor: "#112F82",
                       border: "none",
                       borderRadius: "8px",
+                      fontFamily: manrope.style.fontFamily,
                       // padding: "0 16px",
                       padding: "4px",
                       color: "#ffffff",
                       fontSize: "14px",
-                      fontFamily: "Inter, sans-serif",
                       outline: "none",
                     }}
                   />
@@ -449,7 +458,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       padding: "4px",
                       color: "#ffffff",
                       fontSize: "14px",
-                      fontFamily: "Inter, sans-serif",
+                     fontFamily: manrope.style.fontFamily,
                       outline: "none",
                     }}
                   />
@@ -472,7 +481,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     padding: "0 16px",
                     color: "#ffffff",
                     fontSize: "14px",
-                    fontFamily: "Inter, sans-serif",
+                   fontFamily: manrope.style.fontFamily,
                     outline: "none",
                     boxSizing: "border-box",
                   }}
@@ -496,7 +505,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       padding: "0 44px 0 16px",
                       color: "#ffffff",
                       fontSize: "14px",
-                      fontFamily: "Inter, sans-serif",
+                     fontFamily: manrope.style.fontFamily,
                       outline: "none",
                       boxSizing: "border-box",
                     }}
@@ -532,6 +541,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       padding: "0 12px",
                       height: "44px",
                       cursor: "pointer",
+                      fontFamily: manrope.style.fontFamily,
                       flexShrink: 0,
                     }}
                   >
@@ -608,7 +618,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       style={{
                         color: "#ffffff",
                         fontSize: "13px",
-                        fontFamily: "Manrope, sans-serif",
+                        fontFamily: manrope.style.fontFamily,
                       }}
                     >
                       {formData.countryCode}
@@ -631,7 +641,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       padding: "0 16px",
                       color: "#ffffff",
                       fontSize: "14px",
-                      fontFamily: "Inter, sans-serif",
+                      fontFamily: manrope.style.fontFamily,
                       outline: "none",
                     }}
                   />
@@ -642,7 +652,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   style={{
                     color: "#8899cc",
                     fontSize: "11px",
-                    fontFamily: "Manrope, sans-serif",
+                   fontFamily: manrope.style.fontFamily,
                     margin: 0,
                     lineHeight: "160%",
                   }}
@@ -663,7 +673,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     borderRadius: "8px",
                     fontSize: "14px",
                     fontWeight: 700,
-                    fontFamily: "Manrope, sans-serif",
+                    fontFamily: manrope.style.fontFamily,
                     cursor: "pointer",
                     marginTop: "4px",
                   }}
@@ -703,7 +713,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       color: "#7795E8",
                       fontSize: "10px",
                       whiteSpace: "nowrap",
-                      fontFamily: "Manrope, sans-serif",
+                      fontFamily: manrope.style.fontFamily,
                     }}
                   >
                     Having problems?{" "}
@@ -714,7 +724,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         textDecoration: "none",
                         fontWeight: 600,
                         fontSize: "10px",
-                        fontFamily: "Manrope, sans-serif",
+                        fontFamily: manrope.style.fontFamily,
                       }}
                     >
                       Contact support
@@ -746,7 +756,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     padding: "0 16px",
                     color: "#ffffff",
                     fontSize: "14px",
-                    fontFamily: "Inter, sans-serif",
+                    fontFamily: manrope.style.fontFamily,
                     outline: "none",
                     boxSizing: "border-box",
                   }}
@@ -770,7 +780,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       padding: "0 44px 0 16px",
                       color: "#ffffff",
                       fontSize: "14px",
-                      fontFamily: "Inter, sans-serif",
+                    fontFamily: manrope.style.fontFamily,
                       outline: "none",
                       boxSizing: "border-box",
                     }}
@@ -788,6 +798,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       color: "#8899cc",
                       display: "flex",
                       alignItems: "center",
+                      fontFamily: manrope.style.fontFamily,
                     }}
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -800,7 +811,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   style={{
                     color: "#1463FF",
                     fontSize: "12px",
-                    fontFamily: "Inter, sans-serif",
+                    fontFamily: manrope.style.fontFamily,
                     textDecoration: "none",
                     textAlign: "right",
                   }}
@@ -820,7 +831,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     borderRadius: "8px",
                     fontSize: "15px",
                     fontWeight: 700,
-                    fontFamily: "Jost, sans-serif",
+                    fontFamily: manrope.style.fontFamily,
                     cursor: "pointer",
                     marginTop: "4px",
                   }}
@@ -857,7 +868,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       color: "Caption dark",
                       fontSize: "10px",
                       whiteSpace: "nowrap",
-                      fontFamily: "Manrope, sans-serif",
+                      fontFamily: manrope.style.fontFamily,
                     }}
                   >
                     Having problems?{" "}
@@ -868,7 +879,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         textDecoration: "none",
                         fontWeight: 600,
                         fontSize: "10px",
-                        fontFamily: "Manrope, sans-serif",
+                       fontFamily: manrope.style.fontFamily,
                       }}
                     >
                       Contact support

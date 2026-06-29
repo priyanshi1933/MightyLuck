@@ -1,5 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
+import { Jost } from "next/font/google";
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
+const jost = Jost({
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+});
 
 export default function AboutSection() {
   const [isMobile, setIsMobile] = useState(false);
@@ -276,7 +288,7 @@ export default function AboutSection() {
         {/* Header — Jost 700, 32px, lh=120%, ls=-2% */}
         <h1
           style={{
-            fontFamily: "Jost, sans-serif",
+            fontFamily: jost.style.fontFamily,
             fontWeight: 700,
             fontSize: isMobile ? "24px" : "32px",
             lineHeight: "120%",
@@ -304,7 +316,7 @@ export default function AboutSection() {
         >
           <p
             style={{
-              fontFamily: "Manrope, sans-serif",
+              fontFamily: manrope.style.fontFamily,
               fontWeight: 500,
               fontSize: "16px",
               lineHeight: "160%",
@@ -395,7 +407,7 @@ export default function AboutSection() {
         {/* 2nd header — Jost 700, 24px, lh=100% */}
         <h2
           style={{
-            fontFamily: "Jost, sans-serif",
+            fontFamily: jost.style.fontFamily,
             fontWeight: 700,
             fontSize: isMobile ? "20px" : "24px",
             lineHeight: "100%",

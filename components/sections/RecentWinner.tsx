@@ -1,6 +1,19 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 
+import { Jost } from "next/font/google";
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
+const jost = Jost({
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+});
+
 const winners = [
   {
     id: 1,
@@ -148,7 +161,7 @@ export default function RecentWinner() {
             color: "#ffffff",
             fontSize: isMobile ? "14px" : "16px",
             fontWeight: 800,
-            fontFamily: "Jost, Inter, sans-serif",
+            fontFamily: jost.style.fontFamily,
             letterSpacing: "0.04em",
           }}
         >
@@ -238,7 +251,7 @@ export default function RecentWinner() {
                 color: "#FFFFFF",
                 fontSize: "14px",
                 fontWeight: 700,
-                fontFamily: "Jost, Inter, sans-serif",
+                fontFamily: jost.style.fontFamily,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 fontStyle: "bold",
@@ -251,7 +264,7 @@ export default function RecentWinner() {
                 color: "#FFFFFF",
                 fontSize: "14px",
                 fontWeight: 700,
-                fontFamily: "Jost, Inter, sans-serif",
+                fontFamily: jost.style.fontFamily,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 fontStyle: "bold",
@@ -264,7 +277,7 @@ export default function RecentWinner() {
                 color: "#FFFFFF",
                 fontSize: "14px",
                 fontWeight: 700,
-                fontFamily: "Jost, Inter, sans-serif",
+                fontFamily: jost.style.fontFamily,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 fontStyle: "bold",
@@ -277,7 +290,7 @@ export default function RecentWinner() {
                 color: "#FFFFFF",
                 fontSize: "14px",
                 fontWeight: 700,
-                fontFamily: "Jost, Inter, sans-serif",
+                fontFamily: jost.style.fontFamily,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 textAlign: "right",
@@ -318,7 +331,7 @@ export default function RecentWinner() {
             >
               {/* Game */}
               <div
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                style={{ display: "flex", alignItems: "center", gap: "10px", }}
               >
                 <div
                   style={{
@@ -347,7 +360,7 @@ export default function RecentWinner() {
                   style={{
                     color: "#ffffff",
                     fontSize: "14px",
-                    fontFamily: "Inter, sans-serif",
+                    fontFamily: manrope.style.fontFamily,
                     fontWeight: 600,
                     whiteSpace: "nowrap",
                     overflow: "hidden",
@@ -363,7 +376,7 @@ export default function RecentWinner() {
                 style={{
                   color: "#FFFFFF",
                   fontSize: "14px",
-                  fontFamily: "Inter, sans-serif",
+                  fontFamily: manrope.style.fontFamily,
                   fontWeight: 600,
                 }}
               >
@@ -375,7 +388,7 @@ export default function RecentWinner() {
                 style={{
                   color: "#FFFFFF",
                   fontSize: "14px",
-                  fontFamily: "Inter, sans-serif",
+                 fontFamily: manrope.style.fontFamily,
                   fontWeight: 600,
                 }}
               >
@@ -387,7 +400,7 @@ export default function RecentWinner() {
                 style={{
                   color: winner.positive ? "#00DD29" : "#7795E8",
                   fontSize: "14px",
-                  fontFamily: "Inter, sans-serif",
+                 fontFamily: manrope.style.fontFamily,
                   fontWeight: 600,
                   textAlign: "right",
                 }}

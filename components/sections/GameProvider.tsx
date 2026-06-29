@@ -1,5 +1,12 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import { Jost } from "next/font/google";
+
+
+const jost = Jost({
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+});
 
 const providers = [
   { id: 1, image: "/g1.png", games: 226, name: "Belatra" },
@@ -188,7 +195,7 @@ export default function GameProvider() {
               color: "#ffffff",
               fontSize: isMobile ? "14px" : "16px",
               fontWeight: 800,
-              fontFamily: "Jost, Inter, sans-serif",
+              fontFamily: jost.style.fontFamily,
               letterSpacing: "0.04em",
             }}
           >
@@ -198,7 +205,7 @@ export default function GameProvider() {
                 color: "#ffffff",
                 fontSize: isMobile ? "14px" : "16px",
                 fontWeight: 800,
-                fontFamily: "Jost, Inter, sans-serif",
+                fontFamily: jost.style.fontFamily,
                 letterSpacing: "0.04em",
               }}
             >

@@ -53,6 +53,9 @@ export default function Home() {
           setAuthModal(true);
         }}
         onDeposit={() => setShowDepositModal(true)}
+        onLogout={()=>{
+          window.location.reload();
+        }}
       />
       <Sidebar />
 

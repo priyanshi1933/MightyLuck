@@ -1,6 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Jost } from "next/font/google";
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
+const jost = Jost({
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+});
 
 interface DepositStripProps {
   onTabChange?: (tab: string) => void;
@@ -36,7 +48,7 @@ export default function DepositStrip({ onTabChange }: DepositStripProps) {
       window.removeEventListener("storage", checkAuth);
     };
   }, []);
-  
+
   const mobile = mounted && isMobile;
   const cryptos = [
     {
@@ -521,6 +533,7 @@ export default function DepositStrip({ onTabChange }: DepositStripProps) {
                       fontWeight: 600,
                       whiteSpace: "nowrap",
                       display: "inline-flex",
+                      fontFamily: manrope.style.fontFamily,
                       alignItems: "center",
                       justifyContent: "center",
                       gap: "8px",
@@ -559,7 +572,7 @@ export default function DepositStrip({ onTabChange }: DepositStripProps) {
             style={{
               width: isMobile ? "100%" : "263px",
               color: "#FFFFFF",
-              fontFamily: "Jost, system-ui, sans-serif",
+              fontFamily: jost.style.fontFamily,
               fontWeight: 800,
               fontSize: isMobile ? "18px" : "20px",
               textAlign: "center",
@@ -620,7 +633,7 @@ export default function DepositStrip({ onTabChange }: DepositStripProps) {
               fontSize: "14px",
               fontWeight: 700,
               cursor: "pointer",
-              fontFamily: "Inter, sans-serif",
+              fontFamily: manrope.style.fontFamily,
               whiteSpace: "nowrap",
               flexShrink: 0,
             }}

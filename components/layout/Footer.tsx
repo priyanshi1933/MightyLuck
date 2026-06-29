@@ -1,5 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
+import { Manrope } from "next/font/google";
+import { Jost } from "next/font/google";
+
+const jost = Jost({
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["600"],
+});
 
 const footerLinks = [
   {
@@ -67,7 +79,7 @@ export default function Footer() {
         alignItems: "center",
         display: "flex",
         flexDirection: "column",
-        paddingBottom:isMobile?"80px":"0px",
+        paddingBottom: isMobile ? "80px" : "0px",
       }}
     >
       {/* Main footer content */}
@@ -141,7 +153,7 @@ export default function Footer() {
             style={{
               color: "#5570aa",
               fontSize: "12px",
-              fontFamily: "Manrope, sans-serif",
+              fontFamily: manrope.style.fontFamily,
               fontWeight: 400,
               margin: 0,
               lineHeight: "160%",
@@ -174,6 +186,7 @@ export default function Footer() {
                       padding: "18px 16px",
                       display: "flex",
                       justifyContent: "space-between",
+                      fontFamily: jost.style.fontFamily,
                       alignItems: "center",
                       cursor: "pointer",
                       color: "#fff",
@@ -208,6 +221,7 @@ export default function Footer() {
                           href="#"
                           style={{
                             color: "#D2DCF7",
+                            fontFamily: manrope.style.fontFamily,
                             textDecoration: "none",
                             fontSize: "15px",
                           }}
@@ -243,6 +257,7 @@ export default function Footer() {
                   style={{
                     color: "#fff",
                     fontSize: "13px",
+                    fontFamily: jost.style.fontFamily,
                     margin: 0,
                     fontWeight: 700,
                     letterSpacing: "1px",
@@ -256,6 +271,7 @@ export default function Footer() {
                     key={link}
                     href="#"
                     style={{
+                      fontFamily: manrope.style.fontFamily,
                       color: "#8FA4D4",
                       textDecoration: "none",
                       fontSize: "14px",
@@ -292,7 +308,7 @@ export default function Footer() {
           style={{
             color: "#5570aa",
             fontSize: "11px",
-            fontFamily: "Inter, sans-serif",
+             fontFamily: manrope.style.fontFamily,
             fontWeight: 400,
             margin: 0,
             lineHeight: "160%",

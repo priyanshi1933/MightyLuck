@@ -1,4 +1,16 @@
 import { useEffect, useState, useRef } from "react";
+import { Jost } from "next/font/google";
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
+const jost = Jost({
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+});
 
 export default function WhyJoinSection() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -144,7 +156,7 @@ export default function WhyJoinSection() {
 
               <h2
                 style={{
-                  fontFamily: "Jost, sans-serif",
+                  fontFamily: jost.style.fontFamily,
                   fontWeight: 800,
                   fontSize: "18px",
                   color: "#ffffff",
@@ -273,7 +285,7 @@ export default function WhyJoinSection() {
                 >
                   <h3
                     style={{
-                      fontFamily: "Jost, sans-serif",
+                      fontFamily: jost.style.fontFamily,
                       fontWeight: 800,
                       fontSize: "24px",
                       color: "#FFFFFF",
@@ -300,7 +312,7 @@ export default function WhyJoinSection() {
                       alignItems: "center",
                       justifyContent: "center",
 
-                      fontFamily: "Jost, sans-serif",
+                      fontFamily: manrope.style.fontFamily,
                       fontWeight: 700,
                       fontSize: "14px",
                       whiteSpace: "nowrap",
@@ -357,7 +369,7 @@ export default function WhyJoinSection() {
 
             <h2
               style={{
-                fontFamily: "Jost, sans-serif",
+                fontFamily: jost.style.fontFamily,
                 fontWeight: 800,
                 fontSize: "18px",
                 color: "#ffffff",
@@ -438,7 +450,7 @@ export default function WhyJoinSection() {
                   {/* Title */}
                   <h3
                     style={{
-                      fontFamily: "Jost, sans-serif",
+                      fontFamily: jost.style.fontFamily,
                       fontWeight: 800,
                       fontSize: "24px",
                       lineHeight: "26px",
@@ -456,7 +468,7 @@ export default function WhyJoinSection() {
                   {/* Description */}
                   <p
                     style={{
-                      fontFamily: "Manrope, sans-serif",
+                      fontFamily: manrope.style.fontFamily,
                       fontWeight: 500,
                       fontSize: "14px",
                       lineHeight: "140%",

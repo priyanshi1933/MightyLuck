@@ -2,6 +2,19 @@
 
 import { useEffect, useState } from "react";
 
+import { Jost } from "next/font/google";
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
+const jost = Jost({
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+});
+
 // Mock database for carousel slides
 const BANNER_SLIDES = [
   {
@@ -14,7 +27,7 @@ const BANNER_SLIDES = [
   },
   {
     id: 2,
-    image: "/cartoon.jpg", 
+    image: "/cartoon.jpg",
     subtitle: "Discover new weekly games",
     titleLine1: "100 FREE",
     titleLine2: "SPINS WEEKLY",
@@ -22,14 +35,13 @@ const BANNER_SLIDES = [
   },
   {
     id: 3,
-    image: "/cartoon.jpg", 
+    image: "/cartoon.jpg",
     subtitle: "Level up your gaming tier",
     titleLine1: "VIP REWARDS",
     titleLine2: "NOW LIVE!",
     showCta: false,
   },
 ];
-
 
 export default function HeroBanner() {
   const [isMobile, setIsMobile] = useState(false);
@@ -71,7 +83,14 @@ export default function HeroBanner() {
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: "12px" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        gap: "12px",
+      }}
+    >
       {/* Primary Image Display Panel Window */}
       <section
         style={{
@@ -149,18 +168,19 @@ export default function HeroBanner() {
                 {/* Subtitle */}
                 <p
                   style={{
-                    fontFamily: "Jost, system-ui, sans-serif",
+                    fontFamily: jost.style.fontFamily,
                     fontWeight: 500,
-                    fontSize: isMobile ? "14px" : "28px",
-                    lineHeight: "1.2",
-                    color: "#fff",
+                    fontSize: isMobile ? "18px" : "28px",
+                    lineHeight: "100%",
+                    letterSpacing: "0",
+                    color: "#FFFFFF",
                     margin: 0,
                   }}
                 >
                   {slide.subtitle.includes("LUCKY") ? (
                     <>
                       Get{" "}
-                      <span style={{ color: "#FFBF1F", fontWeight: 800 }}>
+                      <span style={{ color: "#FFBF1F", fontWeight: 500 }}>
                         LUCKY
                       </span>{" "}
                       with our exclusive
@@ -173,11 +193,11 @@ export default function HeroBanner() {
                 {/* Heading Text Line Block */}
                 <h1
                   style={{
-                    fontFamily: "Jost, system-ui, sans-serif",
+                    fontFamily: jost.style.fontFamily,
                     fontWeight: 800,
-                    fontSize: isMobile ? "28px" : "64px",
-                    lineHeight: "1",
-                    color: "#fff",
+                    fontSize: isMobile ? "28px" : "48px",
+                    lineHeight: "100%",
+                    color: "#FFFFFF",
                     textTransform: "uppercase",
                     margin: 0,
                   }}
@@ -187,25 +207,25 @@ export default function HeroBanner() {
                   {slide.titleLine2}
                 </h1>
 
-               
-                  <button
-                    style={{
-                      width: isMobile ? "100px" : "120px",
-                      height: isMobile ? "36px" : "40px",
-                      backgroundColor: "#FFBF1F",
-                      color: "#060c2b",
-                      border: "none",
-                      borderRadius: "8px",
-                      fontWeight: 700,
-                      fontSize: isMobile ? "13px" : "14px",
-                      fontFamily: "Jost, system-ui, sans-serif",
-                      cursor: "pointer",
-                      boxShadow: "0 4px 12px rgba(251,168,25,0.3)",
-                    }}
-                  >
-                    Join Now
-                  </button>
-              
+                <button
+                  style={{
+                    width: isMobile ? "100px" : "120px",
+                    height: isMobile ? "36px" : "40px",
+                    backgroundColor: "#FFBF1F",
+                    color: "#060c2b",
+                    border: "none",
+                    borderRadius: "8px",
+                    fontWeight: 700,
+                    fontSize: isMobile ? "13px" : "14px",
+                    fontFamily: manrope.style.fontFamily,
+                    cursor: "pointer",
+                    letterSpacing:"0.02em",
+                    textAlign:"center",
+                    boxShadow: "0 4px 12px rgba(251,168,25,0.3)",
+                  }}
+                >
+                  Join Now
+                </button>
               </div>
             </div>
           ))}
@@ -220,7 +240,7 @@ export default function HeroBanner() {
           gap: "8px",
           alignItems: "center",
           width: "100%",
-          paddingTop: "4px"
+          paddingTop: "4px",
         }}
       >
         {BANNER_SLIDES.map((_, dotIndex) => (
@@ -243,8 +263,6 @@ export default function HeroBanner() {
           />
         ))}
       </div>
-
     </div>
-   
   );
 }

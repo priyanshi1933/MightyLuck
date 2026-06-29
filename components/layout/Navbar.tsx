@@ -7,9 +7,10 @@ interface NavbarProps {
   onLogin: () => void;
   onJoin: () => void;
   onDeposit:()=>void;
+  onLogout:()=>void;
 }
 
-export default function Navbar({ onLogin, onJoin, onDeposit }: NavbarProps) {
+export default function Navbar({ onLogin, onJoin, onDeposit,onLogout }: NavbarProps) {
   const dispatch = useAppDispatch();
   const [isMobile, setIsMobile] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -56,6 +57,7 @@ export default function Navbar({ onLogin, onJoin, onDeposit }: NavbarProps) {
     localStorage.removeItem("isLoggedIn");
     setShowProfileMenu(false);
     window.dispatchEvent(new Event("authChanged"));
+    onLogout?.();
 };
 
   return (
