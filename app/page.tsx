@@ -25,6 +25,7 @@ export default function Home() {
   const [authModal, setAuthModal] = useState(false);
   const [authTab, setAuthTab] = useState<"join" | "login">("join");
   const [showDepositModal, setShowDepositModal] = useState(false);
+  const [activeGameTab, setActiveGameTab] = useState("lobby");
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -74,7 +75,10 @@ export default function Home() {
         </div>
 
         <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
-        <DepositCryptoModal isOpen={showDepositModal} onClose={() => setShowDepositModal(false)}/>
+        <DepositCryptoModal
+          isOpen={showDepositModal}
+          onClose={() => setShowDepositModal(false)}
+        />
 
         <div
           style={{
@@ -84,10 +88,10 @@ export default function Home() {
             margin: "20px",
           }}
         >
-          <DepositStrip />
+          <DepositStrip onTabChange={(tab) => setActiveGameTab(tab)} />
         </div>
 
-        <div
+        {/* <div
           style={{
             padding: isMobile ? "0 10px 24px" : "0 16px 24px",
             boxSizing: "border-box",
@@ -104,6 +108,7 @@ export default function Home() {
         >
           <OriginalSection />
         </div>
+
 
         <div
           style={{
@@ -166,7 +171,43 @@ export default function Home() {
           }}
         >
           <RecentWinner />
-        </div>
+        </div> */}
+
+          <div
+  style={{
+    padding: isMobile ? "0 10px 24px" : "0 16px 24px",
+    boxSizing: "border-box",
+  }}
+>
+  {activeGameTab === "lobby" && (
+    <>
+      <SlotsSection />
+      <OriginalSection />
+      <WhyJoinSection />
+      <CrashGame />
+      <GameProvider />
+      <TableGame />
+      <BonusBuy />
+      <Collection />
+      <RecentWinner />
+    </>
+  )}
+
+  {activeGameTab === "slots" && <SlotsSection />}
+
+  {activeGameTab === "originals" && <OriginalSection />}
+
+  {activeGameTab === "providers" && <GameProvider />}
+
+  {activeGameTab === "collection" && <Collection />}
+
+  {activeGameTab === "crash" && <CrashGame />}
+
+  {activeGameTab === "table" && <TableGame />}
+
+  {activeGameTab === "bonus" && <BonusBuy />}
+</div>
+
         <div
           style={{
             padding: isMobile ? "0 10px 24px" : "0 16px 24px",

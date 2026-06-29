@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-export default function DepositStrip() {
+
+interface DepositStripProps {
+  onTabChange?: (tab: string) => void;
+}
+
+export default function DepositStrip({ onTabChange }: DepositStripProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -9,31 +14,29 @@ export default function DepositStrip() {
 
   useEffect(() => {
     setMounted(true);
-
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   useEffect(() => {
     const checkAuth = () => {
       const savedUser = localStorage.getItem("user");
       const loggedInStatus = localStorage.getItem("isLoggedIn");
-
       setIsLoggedIn(!!savedUser && loggedInStatus === "true");
     };
-
     checkAuth();
-
     window.addEventListener("authChanged", checkAuth);
     window.addEventListener("storage", checkAuth);
-    return () =>{ window.removeEventListener("authChanged", checkAuth);
-    window.removeEventListener("storage", checkAuth);}
+    return () => {
+      window.removeEventListener("authChanged", checkAuth);
+      window.removeEventListener("storage", checkAuth);
+    };
   }, []);
+  
   const mobile = mounted && isMobile;
   const cryptos = [
     {
@@ -283,7 +286,7 @@ export default function DepositStrip() {
     {
       id: "lobby",
       label: "Lobby",
-      svg: (color:any)=>(
+      svg: (color: any) => (
         <svg
           width="20"
           height="20"
@@ -301,7 +304,7 @@ export default function DepositStrip() {
     {
       id: "slots",
       label: "Slots",
-      svg:(color:any)=> (
+      svg: (color: any) => (
         <svg
           width="20"
           height="20"
@@ -319,7 +322,7 @@ export default function DepositStrip() {
     {
       id: "originals",
       label: "Originals",
-      svg:(color:any)=> (
+      svg: (color: any) => (
         <svg
           width="20"
           height="20"
@@ -337,7 +340,7 @@ export default function DepositStrip() {
     {
       id: "crash",
       label: "Crash Games",
-      svg:(color:any)=> (
+      svg: (color: any) => (
         <svg
           width="20"
           height="21"
@@ -357,7 +360,7 @@ export default function DepositStrip() {
     {
       id: "providers",
       label: "Providers",
-      svg: (color:any)=>(
+      svg: (color: any) => (
         <svg
           width="20"
           height="20"
@@ -379,7 +382,7 @@ export default function DepositStrip() {
     {
       id: "table",
       label: "Table Games",
-      svg:(color:any)=> (
+      svg: (color: any) => (
         <svg
           width="20"
           height="20"
@@ -399,7 +402,7 @@ export default function DepositStrip() {
     {
       id: "bonus",
       label: "Bonus Buys",
-      svg:(color:any)=> (
+      svg: (color: any) => (
         <svg
           width="20"
           height="20"
@@ -419,7 +422,7 @@ export default function DepositStrip() {
     {
       id: "collection",
       label: "Collection",
-      svg:(color:any)=> (
+      svg: (color: any) => (
         <svg
           width="20"
           height="20"
@@ -467,58 +470,72 @@ export default function DepositStrip() {
   return (
     <>
       {isLoggedIn ? (
-        <div
-          className="hide-scrollbar"
-          style={{
-            display: "flex",
-            alignItems: "center",
-             justifyContent: isMobile ? "flex-start" : "space-between",
-            gap: "8px",
-           overflowX: isMobile ? "auto" : "visible", 
-            whiteSpace: "nowrap",
-            width:  "100%" ,
-             margin: isMobile ? "0" : "0 auto", 
-            flexDirection:"row",
-            padding: "4px 16px",
-            WebkitOverflowScrolling: "touch",
-          }}
-        >
-          {MENU_TABS.map((tab) => {
-            const isActive = activeTab === tab.id;
+        <>
+          <div
+            style={{
+              width: "100%",
+              overflowX: isMobile ? "auto" : "visible",
+              overflowY: "hidden",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            <div
+              className="hide-scrollbar"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: isMobile ? "flex-start" : "space-between",
+                gap: "8px",
+                overflowX: isMobile ? "auto" : "visible",
+                overflowY: "hidden",
+                whiteSpace: "nowrap",
+                margin: isMobile ? "0" : "0 auto",
+                width:isMobile?"1060px":"100%",
+                flexDirection: "row",
+                padding: "4px 16px",
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
+              {MENU_TABS.map((tab) => {
+                const isActive = activeTab === tab.id;
 
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                style={{
-                  minWidth:"max-content",
-                  flexShrink: 0,
-                  flexGrow: isMobile ? 0 : 1,
-                  flexBasis:isMobile?"auto":0,
-                  height: "40px",
-                  padding: "0 16px",
-                  borderRadius: "12px",
-                  border: "none",
-                  cursor: "pointer",
-                  backgroundColor: isActive ? "#1463FF" : "#112F82",
-                  color: isActive ? "#FFFFFF" : "#BBCAF3",
-                  fontWeight: 600,
-                  whiteSpace: "nowrap",
-                  display:"inline-flex",
-                  alignItems:"center",
-                  justifyContent:"center",
-                  gap:"8px",
-                  lineHeight:1,
-                  width:"max-content",
-                  outline:"none",
-                }}
-              >{tab.svg(isActive?"#FFC83D":"#BBCAF3")}  {" "} 
-              {tab.label}
-              </button>
-            );
-          })}
-        </div>
-        
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      onTabChange?.(tab.id);
+                    }}
+                    style={{
+                      minWidth: isMobile ? "max-content" : "0",
+                      flexShrink: 0,
+                      flexGrow: isMobile ? 0 : 1,
+                      flexBasis: isMobile ? "auto" : 0,
+                      height: "40px",
+                      padding: "0 16px",
+                      borderRadius: "12px",
+                      border: "none",
+                      cursor: "pointer",
+                      backgroundColor: isActive ? "#1463FF" : "#112F82",
+                      color: isActive ? "#FFFFFF" : "#BBCAF3",
+                      fontWeight: 600,
+                      whiteSpace: "nowrap",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "8px",
+                      lineHeight: 1,
+                      width: "max-content",
+                      outline: "none",
+                    }}
+                  >
+                    {tab.svg(isActive ? "#FFC83D" : "#BBCAF3")} {tab.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </>
       ) : (
         <div
           style={{

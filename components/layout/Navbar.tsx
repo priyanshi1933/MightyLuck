@@ -53,10 +53,9 @@ export default function Navbar({ onLogin, onJoin, onDeposit }: NavbarProps) {
 }, []);
 
   const handleLogout = () => {
-  localStorage.removeItem("isLoggedIn");
-  setUser(null);
-   window.dispatchEvent(new Event("authChanged"));
-  setShowProfileMenu(false);
+    localStorage.removeItem("isLoggedIn");
+    setShowProfileMenu(false);
+    window.dispatchEvent(new Event("authChanged"));
 };
 
   return (
