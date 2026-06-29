@@ -2,6 +2,20 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { setActiveNav, toggleCasino, toggleLiveCasino, toggleSidebar } from "@/app/store";
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
+const menuTextStyle = {
+  fontFamily: manrope.style.fontFamily,
+  fontWeight: 600,
+  fontSize: "16px",
+  lineHeight: "16px",
+  letterSpacing: "0.02em",
+};
 
 function NavItem({ icon, label, active, onClick }: {
   icon: React.ReactNode;
@@ -18,7 +32,7 @@ function NavItem({ icon, label, active, onClick }: {
       boxSizing: "border-box", textAlign: "left",
     }}>
       {icon}
-      <span style={{ color: active ? "#fff" : "#7B8EC8", fontSize: "13px", fontWeight: active ? 600 : 400 }}>
+      <span style={{ ...menuTextStyle,color: active ? "#fff" : "#7B8EC8" }}>
         {label}
       </span>
     </button>
@@ -40,7 +54,7 @@ function SubNavItem({ icon, label, active, onClick }: {
       boxSizing: "border-box", textAlign: "left",
     }}>
       {icon}
-      <span style={{ color: active ? "#fff" : "#7B8EC8", fontSize: "13px", fontWeight: active ? 600 : 400 }}>
+      <span style={{ ...menuTextStyle,color: active ? "#fff" : "#7B8EC8"}}>
         {label}
       </span>
     </button>
@@ -82,7 +96,7 @@ export default function Sidebar() {
         boxSizing: "border-box",
         transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
         transition: "transform 0.3s ease",
-        fontFamily: "system-ui, -apple-system, sans-serif",
+        fontFamily: manrope.style.fontFamily,
       }}>
 
         {/* Top Banner */}
@@ -146,7 +160,7 @@ export default function Sidebar() {
             >
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <img src="/casino.png" alt="Casino" style={{ width: "18px", height: "18px" }} />
-                <span style={{ color: "#fff", fontSize: "14px", fontWeight: 600 }}>Casino</span>
+                <span style={{ ...menuTextStyle,color: "#fff" }}>Casino</span>
               </div>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
                 {casinoExpanded
@@ -187,7 +201,7 @@ export default function Sidebar() {
             >
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <img src="/live.png" alt="Live Casino" style={{ width: "18px", height: "18px" }} />
-                <span style={{ color: "#fff", fontSize: "14px", fontWeight: 600 }}>Live Casino</span>
+                <span style={{ ...menuTextStyle,color: "#fff"}}>Live Casino</span>
               </div>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
                 {liveCasinoExpanded
@@ -237,7 +251,7 @@ export default function Sidebar() {
               <path d="M0 0H16M0 6.857H11.429M0 13.714H16M20.571 2.286L19.253 3.288C17.086 4.935 16 5.759 16 6.857C16 7.956 17.085 8.78 19.253 10.427L20.571 11.429"
                 stroke={sidebarOpen ? "#FFC83D" : "white"} strokeWidth="1.71429" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <span style={{ color: sidebarOpen ? "#FFC83D" : "#7B8EC8", fontSize: "10px", fontWeight: 500 }}>Menu</span>
+            <span style={{ ...menuTextStyle,color: sidebarOpen ? "#FFC83D" : "#7B8EC8"}}>Menu</span>
           </button>
 
           {/* Search */}
@@ -246,7 +260,7 @@ export default function Sidebar() {
               <circle cx="11" cy="11" r="7" stroke="#7B8EC8" strokeWidth="2"/>
               <path d="M16.5 16.5L21 21" stroke="#7B8EC8" strokeWidth="2" strokeLinecap="round"/>
             </svg>
-            <span style={{ color: "#7B8EC8", fontSize: "10px", fontWeight: 500 }}>Search</span>
+            <span style={{...menuTextStyle, color: "#7B8EC8" }}>Search</span>
           </button>
 
           {/* Offers */}
@@ -257,7 +271,7 @@ export default function Sidebar() {
               <line x1="12" y1="11" x2="12" y2="17" stroke="#7B8EC8" strokeWidth="2"/>
               <line x1="9" y1="14" x2="15" y2="14" stroke="#7B8EC8" strokeWidth="2"/>
             </svg>
-            <span style={{ color: "#7B8EC8", fontSize: "10px", fontWeight: 500 }}>Offers</span>
+            <span style={{...menuTextStyle, color: "#7B8EC8"}}>Offers</span>
           </button>
 
           {/* VIP */}
@@ -266,7 +280,7 @@ export default function Sidebar() {
               <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
                 stroke="#7B8EC8" strokeWidth="2" strokeLinejoin="round"/>
             </svg>
-            <span style={{ color: "#7B8EC8", fontSize: "10px", fontWeight: 500 }}>VIP</span>
+            <span style={{ ...menuTextStyle,color: "#7B8EC8" }}>VIP</span>
           </button>
 
           {/* Tourneys */}
@@ -276,7 +290,7 @@ export default function Sidebar() {
                 stroke="#7B8EC8" strokeWidth="2" strokeLinejoin="round"/>
               <path d="M6 7H3C3 7 3 13 6 13M18 7H21C21 7 21 13 18 13" stroke="#7B8EC8" strokeWidth="2"/>
             </svg>
-            <span style={{ color: "#7B8EC8", fontSize: "10px", fontWeight: 500 }}>Tourneys</span>
+            <span style={{...menuTextStyle, color: "#7B8EC8" }}>Tourneys</span>
           </button>
 
         </nav>

@@ -134,84 +134,100 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
             maxHeight: "95vh",
           }}
         >
-          {isMobile && (
-            <>
-              {/* Header */}
-              <div
-                style={{
-                  padding: "10px 16px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                  background: "#07194D",
-                }}
-              >
-                <button
-                  onClick={onClose}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: "#fff",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  ←
-                </button>
+        {isMobile && (
+  <>
+    {/* Mobile Header */}
+    <div
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 20,
+        background: "#07194D",
+        padding: "12px 16px",
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+        width: "100%",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* Back */}
+      <button
+        onClick={onClose}
+        style={{
+          width: "32px",
+          height: "32px",
+          border: "none",
+          background: "transparent",
+          color: "#fff",
+          fontSize: "22px",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexShrink: 0,
+        }}
+      >
+        ←
+      </button>
 
-                <div
-                  style={{
-                    flex: 1,
-                    display: "flex",
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    background: "#17398D",
-                  }}
-                >
-                  <button
-                    onClick={() => setActiveTab("join")}
-                    style={{
-                      flex: 1,
-                      height: "42px",
-                      border: "none",
-                      background:
-                        activeTab === "join" ? "#2463FF" : "transparent",
-                      color: "#fff",
-                      fontWeight: 700,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Join Now
-                  </button>
+      {/* Tabs */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          background: "#1A3E97",
+          borderRadius: "12px",
+          overflow: "hidden",
+          height: "40px",
+        }}
+      >
+        <button
+          onClick={() => setActiveTab("join")}
+          style={{
+            flex: 1,
+            border: "none",
+            background:
+              activeTab === "join" ? "#2E6BFF" : "transparent",
+            color: "#fff",
+            fontSize: "14px",
+            fontWeight: 700,
+            cursor: "pointer",
+            transition: ".2s",
+          }}
+        >
+          Join Now
+        </button>
 
-                  <button
-                    onClick={() => setActiveTab("login")}
-                    style={{
-                      flex: 1,
-                      height: "42px",
-                      border: "none",
-                      background:
-                        activeTab === "login" ? "#2463FF" : "transparent",
-                      color: "#fff",
-                      fontWeight: 700,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Log In
-                  </button>
-                </div>
-              </div>
+        <button
+          onClick={() => setActiveTab("login")}
+          style={{
+            flex: 1,
+            border: "none",
+            background:
+              activeTab === "login" ? "#2E6BFF" : "transparent",
+            color: "#fff",
+            fontSize: "14px",
+            fontWeight: 700,
+            cursor: "pointer",
+            transition: ".2s",
+          }}
+        >
+          Log In
+        </button>
+      </div>
+    </div>
 
-              {/* Purple Divider */}
-              <div
-                style={{
-                  height: "2px",
-                  background: "#C000FF",
-                }}
-              />
-            </>
-          )}
+    {/* Divider */}
+    <div
+      style={{
+        width: "100%",
+        height: "2px",
+        background: "#D300FF",
+      }}
+    />
+  </>
+)}
           {/* Left: Banner */}
           <div
             style={{

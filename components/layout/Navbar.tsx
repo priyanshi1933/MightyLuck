@@ -287,7 +287,7 @@ export default function Navbar({ onLogin, onJoin, onDeposit }: NavbarProps) {
                 alignItems: "center",
                 fontWeight: "700",
                 fontSize: isMobile ? "12px" : "14px",
-                fontFamily: "Inter, sans-serif",
+                fontFamily: "Manrope, sans-serif",
               }}
             >
               $
@@ -312,7 +312,7 @@ export default function Navbar({ onLogin, onJoin, onDeposit }: NavbarProps) {
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
-                fontFamily: "Inter, sans-serif",
+                fontFamily: "Manrope, sans-serif",
               }}
             >
               <svg
@@ -466,6 +466,7 @@ export default function Navbar({ onLogin, onJoin, onDeposit }: NavbarProps) {
           cursor: "pointer",
           textAlign: "left",
           fontSize: "14px",
+          fontFamily: "Manrope, sans-serif",
         }}
       >
         Logout
@@ -489,7 +490,7 @@ export default function Navbar({ onLogin, onJoin, onDeposit }: NavbarProps) {
                 fontSize: isMobile ? "12px" : "14px",
                 fontWeight: 700,
                 cursor: "pointer",
-                fontFamily: "Inter, sans-serif",
+                fontFamily: "Manrope, sans-serif",
                 flexShrink: 0,
               }}
             >
@@ -509,7 +510,7 @@ export default function Navbar({ onLogin, onJoin, onDeposit }: NavbarProps) {
                 fontSize: isMobile ? "12px" : "14px",
                 fontWeight: 700,
                 cursor: "pointer",
-                fontFamily: "Inter, sans-serif",
+                fontFamily: "Manrope, sans-serif",
                 flexShrink: 0,
               }}
             >
