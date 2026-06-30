@@ -229,6 +229,7 @@ export default function WhyJoinSection() {
               overflowX: "auto",
               flexWrap: "nowrap",
               scrollBehavior: "smooth",
+              height:"220px",
               scrollbarWidth: "none",
             }}
           >
@@ -242,6 +243,7 @@ export default function WhyJoinSection() {
                   background: promo.bg,
                   cursor: "pointer",
                   minWidth: "380px",
+                  width:"560px",
                   height: "220px",
                   flexShrink: 0,
                 }}

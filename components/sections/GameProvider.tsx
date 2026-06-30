@@ -47,7 +47,8 @@ function ProviderCard({
       style={{
         // Exact Figma: w=152, h=100, p=12px 24px, gap=8px, radius=12px
         // width: isMobile ? '120px' : '152px',
-        width: "100%",
+        width: "152px",
+        minWidth:"152px",
         height: "100px",
         paddingTop: "12px",
         paddingBottom: "12px",
@@ -103,7 +104,7 @@ function ProviderCard({
       {/* Games count — exact: w=104, h=14, gap=10px */}
       <div
         style={{
-          width: "104px",
+          width: "100%",
           height: "14px",
           display: "flex",
           alignItems: "center",
@@ -297,7 +298,6 @@ export default function GameProvider() {
         }}
       >
         {providers.map((p) => (
-          <div key={p.id} style={{ flex: "1 1 0", minWidth: "100px" }}>
             <ProviderCard
               key={p.id}
               image={p.image}
@@ -305,7 +305,6 @@ export default function GameProvider() {
               name={p.name}
               isMobile={isMobile}
             />
-          </div>
         ))}
       </div>
     </section>

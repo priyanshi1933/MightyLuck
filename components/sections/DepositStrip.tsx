@@ -553,7 +553,7 @@ export default function DepositStrip({ onTabChange }: DepositStripProps) {
         <div
           style={{
             width: "100%",
-            height: isMobile ? "auto" : "64px",
+            height: isMobile ? "auto" : "100px",
             backgroundColor: "#0c1e5b",
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
